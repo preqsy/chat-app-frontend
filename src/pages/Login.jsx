@@ -1,6 +1,6 @@
-import ImageComponent from "./components/ImageComponent";
-import ImageLogo from "./assets/react.svg";
-import GoogleImg from "./assets/google.svg";
+import ImageComponent from "../components/ImageComponent";
+import ImageLogo from "../assets/react.svg";
+import GoogleImg from "../assets/google.svg";
 
 export default function Login() {
   return (

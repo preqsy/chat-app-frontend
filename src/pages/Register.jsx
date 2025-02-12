@@ -1,7 +1,7 @@
 // import backgroundImage from "./assets/background_img.png";
-import ImageLogo from "./assets/react.svg";
-import GoogleImg from "./assets/google.svg";
-import ImageComponent from "./components/ImageComponent";
+import ImageLogo from "../assets/react.svg";
+import GoogleImg from "../assets/google.svg";
+import ImageComponent from "../components/ImageComponent";
 
 export default function Register() {
   return (
@@ -23,7 +23,7 @@ export default function Register() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-x-8">
+        <div className="grid grid-cols-2 gap-x-10">
           <form className="flex flex-col justify-start mt-6 leading-relaxed">
             <label htmlFor="text" className="font-satoshi font-thin mb-2">
               First Name
