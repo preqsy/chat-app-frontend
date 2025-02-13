@@ -1,15 +1,19 @@
-import axios from "axios";
+import {gql, useMutation} from "@apollo/client";
 
-const API_URL = "http://localhost:8080";
+const REGISTER_USER = gql`
+    mutation CreateAuthUser($input: AuthUserCreate!) {
+        createAuthUser(input: $input) {
+            id
+            firstName
+            lastName
+            email
+            createdAt
+            updatedAt
+        }
+    }
+`
+export default function useCreateAuthUser() {
+    const [createAuthUser, {data, loading, error}] = useMutation(REGISTER_USER);
 
-export const registerUser = async (payload) => {
-    try {
-        const response = await axios.post(API_URL + "/register", payload);
-        console.log(response.data);
-        return response.data
-    }
-    catch (error) {
-        console.error("Error registering user:", error);
-        throw error;
-    }
+    return {createAuthUser, data, loading, error};
 }

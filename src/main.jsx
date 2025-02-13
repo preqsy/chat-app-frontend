@@ -1,10 +1,16 @@
 import { createRoot } from 'react-dom/client'
+import { ApolloProvider } from '@apollo/client'
 import './index.css'
-// import Login from './Login'
-import Register from './pages/Register'
+import App from './App'
+import client from './apollo-client'
+import React from 'react'
 
-createRoot(document.getElementById('root')).render(
-  <>
-    <Register />
-  </>
+const root = createRoot(document.getElementById('root'))
+
+root.render(
+  <React.StrictMode>
+    <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>
+  </React.StrictMode>
 )
