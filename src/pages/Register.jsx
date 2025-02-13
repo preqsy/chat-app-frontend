@@ -2,8 +2,11 @@
 import ImageLogo from "../assets/react.svg";
 import GoogleImg from "../assets/google.svg";
 import ImageComponent from "../components/ImageComponent";
+import { useState } from "react";
 
 export default function Register() {
+  let [firstName, setFirstName] = useState("");
+  // let firstName;
   return (
     <div className="flex">
       <ImageComponent />
@@ -25,6 +28,7 @@ export default function Register() {
 
         <div className="grid grid-cols-2 gap-x-10">
           <form className="flex flex-col justify-start mt-6 leading-relaxed">
+            
             <label htmlFor="text" className="font-satoshi font-thin mb-2">
               First Name
             </label>
@@ -33,9 +37,12 @@ export default function Register() {
               id="text"
               placeholder="Enter your first name"
               className="border-gray-100 rounded-md p-2 bg-gray-100 w-[300px] placeholder:font-satoshi placeholder:font-thin placeholder:text-gray-400"
+              onChange={(e) => setFirstName(e.target.value)}
             />
-          </form>
+            
+            <h1>{firstName}</h1>
 
+          </form>
           <form className="flex flex-col justify-start mt-6 leading-relaxed">
             <label htmlFor="text" className="font-satoshi font-thin mb-2">
               Last Name
