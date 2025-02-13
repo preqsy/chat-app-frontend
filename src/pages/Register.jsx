@@ -4,6 +4,7 @@ import GoogleImg from "../assets/google.svg";
 import ImageComponent from "../components/ImageComponent";
 import { useState } from "react";
 import useCreateAuthUser from "../services/authService";
+import {useNavigate} from "react-router-dom"
 
 export default function Register() {
   let [firstName, setFirstName] = useState("");
@@ -11,6 +12,7 @@ export default function Register() {
   let [username, setUsername] = useState("");
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
+  const navigate = useNavigate();
   
   const {createAuthUser, data, loading, error} = useCreateAuthUser();
   
@@ -28,6 +30,7 @@ export default function Register() {
           }
         }
       })
+      navigate("/login")
     }
     catch (error) {
       console.error("Error registering user:", error);
