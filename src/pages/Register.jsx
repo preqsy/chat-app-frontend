@@ -127,8 +127,7 @@ export default function Register() {
           <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-satoshi font-bold p-2 w-full mt-8 rounded-md transition-colors col-span-2 cursor-pointer">
             Register
           </button>
-          {/* <h1>{data?.createAuthUser.user.firstName}</h1> */}
-          <h1>{data}</h1>
+
         </form>
 
         <div className="flex justify-center items-center border border-gray-200 text-black font-satoshi p-2 mt-4 rounded-md w-full hover:bg-gray-50 transition-colors">

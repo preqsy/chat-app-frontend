@@ -7,7 +7,7 @@ export default function ImageComponent() {
                 <img
                     src={backgroundImage}
                     alt="Image"
-                    className="h-screen w-full md:w-[50vw] ml-0 md:ml-2 mt-1 rounded-none md:rounded-3xl object-cover"
+                    className="h-[99vh] w-full md:w-[50vw] ml-0 md:ml-2 mt-1 rounded-none md:rounded-3xl object-cover"
                 />
                 <div className="absolute justify-start flex flex-col text-white gap-[30vh] md:gap-[50vh] p-4 md:p-0">
                     <div className="font-satoshi font-thin flex justify-center items-center w-full md:w-[50%] gap-4 md:gap-10">

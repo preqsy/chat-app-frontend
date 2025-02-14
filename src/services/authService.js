@@ -3,12 +3,13 @@ import {gql, useMutation} from "@apollo/client";
 const REGISTER_USER = gql`
     mutation CreateAuthUser($input: AuthUserCreate!) {
         createAuthUser(input: $input) {
-            id
-            firstName
-            lastName
-            email
-            createdAt
-            updatedAt
+            token,
+            authUser {
+                id
+                username
+                firstName
+                lastName
+            }
         }
     }
 `
