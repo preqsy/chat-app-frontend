@@ -1,6 +1,7 @@
 import ImageComponent from "../components/ImageComponent";
 import ImageLogo from "../assets/react.svg";
 import GoogleImg from "../assets/google.svg";
+import Button from "../components/Button";
 
 export default function Login() {
   return (
@@ -36,10 +37,11 @@ export default function Login() {
             </div>
             <span>Forgot password?</span>
         </div>
-        <button className="bg-blue-600 hover:bg-blue-700 text-white font-satoshi font-bold p-2 w-full mt-8 rounded-md transition-colors">Sign In</button>
+        <Button className="bg-blue-600 hover:bg-blue-700 text-white font-satoshi font-bold p-2 w-full mt-8 rounded-md transition-colors">Sign In</Button>
+
         <div className="flex justify-center items-center border border-gray-200 text-black font-satoshi p-2 mt-4 rounded-md w-full hover:bg-gray-50 transition-colors">
             <img src={GoogleImg} alt="Google" width={30} height={30}/>
-            <button className="ml-2">Continue with Google</button>
+            <Button className="ml-2">Continue with Google</Button>
         </div>
         
         <p className="mt-6 text-sm text-gray-600 mt-[30%]">
