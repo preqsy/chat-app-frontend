@@ -13,8 +13,21 @@ const REGISTER_USER = gql`
         }
     }
 `
-export default function useCreateAuthUser() {
+const LOGIN_USER = gql`
+    mutation LoginUser($input: AuthUserLogin!) {
+        loginAuthUser(input: $input) {
+            token
+        }
+    }
+
+`
+export const useCreateAuthUser = () => {
     const [createAuthUser, {data, loading, error}] = useMutation(REGISTER_USER);
 
     return {createAuthUser, data, loading, error};
+}
+
+export const useLoginUser = () => {
+    const [loginUser, {data, loading, error}] = useMutation(LOGIN_USER)
+    return {loginUser, data, loading, error};
 }

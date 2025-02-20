@@ -4,7 +4,7 @@ import GoogleImg from "../assets/google.svg";
 import ImageComponent from "../components/ImageComponent";
 import Button from "../components/Button";
 import { useState } from "react";
-import useCreateAuthUser from "../services/authService";
+import {useCreateAuthUser} from "../hooks/useAuth";
 import {useNavigate} from "react-router-dom"
 
 export default function Register() {
@@ -13,12 +13,14 @@ export default function Register() {
   let [username, setUsername] = useState("");
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
-  const navigate = useNavigate();
   
+  const navigate = useNavigate();
   const {createAuthUser, data, loading, error} = useCreateAuthUser();
+  console.log(data)
   
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     try {
       const response =await createAuthUser({
         variables: {
@@ -31,7 +33,8 @@ export default function Register() {
           }
         }
       });
-      navigate("/login")
+      console.log(response)
+      navigate("/")
     }
     
     catch (error) {
