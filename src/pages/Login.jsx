@@ -26,7 +26,7 @@ export default function Login() {
       })
       const token = response.data.loginAuthUser.token
       localStorage.setItem("token", token)
-      console.log(data)
+      // localStorage.clear()
       navigate("/")
     }
     catch (error) {
@@ -102,7 +102,7 @@ export default function Login() {
 
         <p className="mt-6 text-sm text-gray-600 mt-[30%]">
           New to BlahBlahLand?{" "}
-          <a href="/signup" className="text-blue-600 hover:underline">
+          <a href="/register" className="text-blue-600 hover:underline">
             Create an account
           </a>
         </p>
