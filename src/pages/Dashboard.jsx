@@ -23,7 +23,16 @@ export default function Dashboard() {
               <SearchBox />
             </div>
 
-            <div className="mt-10"> <GroupPeople title="Groups"/>  </div>
+            <div className="mt-10">
+              <GroupPeople
+                title="Groups"
+                name="Friends Forever"
+                messagePreview="Hahahahaha!"
+                messageTime="Today, 9:52pm"
+                className="text-white border-4 bg-red-400 rounded-full w-6 h-6 flex items-center justify-center text-sm"
+                messageAction="4"
+              />
+            </div>
 
             {/* <div className="mt-8"> <GroupPeople title="People"/> </div> */}
           </div>
