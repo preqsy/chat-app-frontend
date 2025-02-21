@@ -33,7 +33,7 @@ export default function Register() {
           }
         }
       });
-      const token = response.data.token
+      const token = response.data.createAuthUser.token
       localStorage.setItem("token", token)
       navigate("/")
     }
