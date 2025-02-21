@@ -2,9 +2,10 @@
 import ImageLogo from "../assets/react.svg";
 import GoogleImg from "../assets/google.svg";
 import ImageComponent from "../components/ImageComponent";
+import Button from "../components/Button";
 import { useState } from "react";
-import useCreateAuthUser from "../services/authService";
-import {useNavigate} from "react-router-dom"
+import { useCreateAuthUser } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   let [firstName, setFirstName] = useState("");
@@ -12,30 +13,33 @@ export default function Register() {
   let [username, setUsername] = useState("");
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
+
   const navigate = useNavigate();
-  
-  const {createAuthUser, data, loading, error} = useCreateAuthUser();
-  
+  const { createAuthUser, data, loading, error } = useCreateAuthUser();
+  console.log(data);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      await createAuthUser({
+      const response = await createAuthUser({
         variables: {
           input: {
             firstName,
             lastName,
             username,
             email,
-            password
-          }
-        }
-      })
-      navigate("/login")
-    }
-    catch (error) {
+            password,
+          },
+        },
+      });
+      const token = response.data.createAuthUser.token;
+      localStorage.setItem("token", token);
+      navigate("/");
+    } catch (error) {
       console.error("Error registering user:", error);
     }
-  }
+  };
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
   // let firstName;
@@ -99,7 +103,10 @@ export default function Register() {
           </div>
 
           <div className="flex flex-col justify-start mt-6 leading-relaxed">
-            <label htmlFor="register-email" className="font-satoshi font-thin mb-2">
+            <label
+              htmlFor="register-email"
+              className="font-satoshi font-thin mb-2"
+            >
               Email
             </label>
             <input
@@ -112,7 +119,10 @@ export default function Register() {
           </div>
 
           <div className="flex flex-col justify-start mt-6 leading-relaxed">
-            <label htmlFor="register-password" className="font-satoshi font-thin mb-2">
+            <label
+              htmlFor="register-password"
+              className="font-satoshi font-thin mb-2"
+            >
               Password
             </label>
             <input
@@ -124,16 +134,14 @@ export default function Register() {
             />
           </div>
 
-          <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-satoshi font-bold p-2 w-full mt-8 rounded-md transition-colors col-span-2 cursor-pointer">
+          <Button className="bg-blue-600 hover:bg-blue-700 text-white font-satoshi font-bold p-2 w-full mt-8 rounded-md transition-colors col-span-2 cursor-pointer">
             Register
-          </button>
-          {/* <h1>{data?.createAuthUser.user.firstName}</h1> */}
-          <h1>{data}</h1>
+          </Button>
         </form>
 
         <div className="flex justify-center items-center border border-gray-200 text-black font-satoshi p-2 mt-4 rounded-md w-full hover:bg-gray-50 transition-colors">
           <img src={GoogleImg} alt="Google" width={30} height={30} />
-          <button className="ml-2">Continue with Google</button>
+          <Button className="ml-2">Continue with Google</Button>
         </div>
 
         <p className="mt-6 text-sm text-gray-600 mt-[10%]">
