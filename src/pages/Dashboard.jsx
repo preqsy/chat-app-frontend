@@ -23,9 +23,9 @@ export default function Dashboard() {
               <SearchBox />
             </div>
 
-            <div> <GroupPeople title="Groups"/> </div>
+            <div className="mt-10"> <GroupPeople title="Groups"/>  </div>
 
-            <div> <GroupPeople title="People"/> </div>
+            {/* <div className="mt-8"> <GroupPeople title="People"/> </div> */}
           </div>
         </div>
 
