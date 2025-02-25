@@ -1,23 +1,21 @@
-import Ellipis_1 from "../assets/Ellipse_1.svg";
 
 export default function GroupPeople(props) {
 
   return (
-    <div className="border border-white rounded-2xl bg-white shadow-2xl ">
-      <h2 className="font-poppins font-bold mt-2 ml-2">{props.title}</h2>
+    <div>
       
       <div className="mt-2 mb-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center ml-2">
-            <img src={Ellipis_1} alt="" width={50} height={50} />
+            <img src={props.picture} alt="" width={50} height={50} />
             <div className="ml-2">
               <p className="font-poppins">{props.name}</p>
-              <p className="text-sm font-satoshi font-thin">{props.messagePreview}</p>
+              <p className="text-sm font-satoshi font-thin">{ props.messagePreview.length > 10 ? props.messagePreview.slice(0, 10) + "...." : props.messagePreview}</p>
             </div>
           </div>
           <div className="flex flex-col items-end text-sm font-satoshi mr-2 font-thin">
             <span>{props.messageTime}</span>
-            <span className={props.className}>
+            <span className={props.className || "text-gray-400"}>
               {props.messageAction}
             </span>
           </div>
