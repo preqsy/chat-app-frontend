@@ -10,7 +10,7 @@ export default function GroupPeople(props) {
             <img src={props.picture} alt="" width={50} height={50} />
             <div className="ml-2">
               <p className="font-poppins">{props.name}</p>
-              <p className="text-sm font-satoshi font-thin">{ props.messagePreview.length > 10 ? props.messagePreview.slice(0, 10) + "...." : props.messagePreview}</p>
+              <p className="text-sm font-satoshi font-thin">{ props.messagePreview.length > 15 ? props.messagePreview.slice(0, 10) + "...." : props.messagePreview}</p>
             </div>
           </div>
           <div className="flex flex-col items-end text-sm font-satoshi mr-2 font-thin">

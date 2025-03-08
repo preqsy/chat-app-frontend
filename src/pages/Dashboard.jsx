@@ -46,7 +46,7 @@ export default function Dashboard() {
       picture: Ellipis_1
     },
     {
-      name: "Prehqsy",
+      name: "Crazy bro",
       messagePreview: "How far you play that game??",
       messageTime: "Today, 9:52pm",
       messageAction: 8,
@@ -67,7 +67,7 @@ export default function Dashboard() {
       picture: Ellipis_1
     },
     {
-      name: "Young Wolf",
+      name: "Mountain",
       messagePreview: "He's Cheating on me 😭",
       messageTime: "Today, 9:52pm",
       messageAction: 1,
@@ -116,7 +116,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className=" w-[50vw] bg-white rounded-2xl"> <Chat /> </div>
+        <div className=" w-[50vw] bg-white rounded-2xl mt-4"> <Chat username={data.getCurrentUser.username}/> </div>
       </div>
     </main>
   );
