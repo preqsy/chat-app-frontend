@@ -7,8 +7,8 @@ import option from "../assets/option.svg";
 import paperClip from "../assets/paper-clip.svg";
 import emoji from "../assets/emoji-face.svg";
 import camera from "../assets/camera.svg";
-import microphone from "../assets/microphone.svg";
 import send from "../assets/send-3.svg";
+import MessageBubble from "./MessageBubble";
 
 export default function Chat(props) {
   const [messages, setMessages] = useState([
@@ -18,21 +18,19 @@ export default function Chat(props) {
     { id: 4, content: "i'm good brother", sender: "me" },
   ]);
   const [input, setInput] = useState("");
-
   const sendMessage = () => {
-    console.log("Sending message", input);
     if (!input.trim()) return;
-    setMessages([
-      ...messages,
+    setMessages((prevMessages) => [
+      ...prevMessages,
       {
-        id: messages.length + 1,
+        id: prevMessages.length + 1,
         content: input,
         sender: "me",
       },
     ]);
-    console.log("This is the messages", messages);
     setInput("");
   };
+
   return (
     <div>
       <div>
@@ -58,16 +56,7 @@ export default function Chat(props) {
 
       <div className="mt-4 w-full h-[500px] flex-1 overflow-y-auto space-y-6">
         {messages.map((msg) => (
-          <div
-            key={msg.id}
-            className={`mt-2 rounded-3xl w-[35%] p-2 pl-8 ${
-              msg.sender === "me"
-                ? "bg-[#6E00FF] text-white self-end ml-auto mr-4"
-                : "bg-gray-200 text-black ml-4"
-            }`}
-          >
-            {msg.content}
-          </div>
+          <MessageBubble key={msg.id} {...msg} />
         ))}
       </div>
 
@@ -107,7 +96,11 @@ export default function Chat(props) {
             alt="Send Message"
             width={50}
             height={45}
-            className="bg-white p-2 ml-4 rounded-lg cursor-pointer"
+            className={`bg-white p-2 ml-4 rounded-lg ${
+              input.trim() === ""
+                ? "cursor-not-allowed"
+                : "cursor-pointer opacity-100"
+            }`}
             onClick={(e) => sendMessage(e)}
           />
         </div>
