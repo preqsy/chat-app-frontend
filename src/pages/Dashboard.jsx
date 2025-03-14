@@ -4,15 +4,38 @@ import SideBar from "../components/SideBar";
 import Chat from "../components/Chat";
 import SearchBox from "../components/Search";
 import GroupPeople from "../components/GroupPeople";
+import LoadingSpinner from "../components/LoadingSpinner";
+import Toast from "../components/Toast";
+import { useState } from "react";
 import Ellipis_1 from "../assets/Ellipse_1.svg";
 
-
 export default function Dashboard() {
-  const { data, loading, error } = useGetCurrentUser();
-  if (error) return <Navigate to={"/login"} />;
-  if (loading) return <p>Loading...</p>;
+  const { currentUser, loading, error } = useGetCurrentUser();
+  const [activeTab, setActiveTab] = useState('chats'); // 'chats', 'friends', 'groups'
+  const [searchQuery, setSearchQuery] = useState('');
+  const [notification, setNotification] = useState(null);
 
-  localStorage.setItem("user", JSON.stringify(data.getCurrentUser));
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
+  }
+
+  if (error) {
+    setNotification({
+      message: "Failed to load user data",
+      type: "error"
+    });
+    return <Navigate to="/login" />;
+  }
+
+  if (!currentUser) {
+    return <Navigate to="/login" />;
+  }
+
+  localStorage.setItem("user", JSON.stringify(currentUser));
   
   const groupData = [
     {
@@ -74,50 +97,116 @@ export default function Dashboard() {
       picture: Ellipis_1
     },
   ]
+
+  const filteredPeople = peopleData.filter(person => 
+    person.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const filteredGroups = groupData.filter(group => 
+    group.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <main className="bg-[#E5E5E5] h-[100vh]">
-      <div className="flex justify-center gap-[10vw]">
-        <div className="flex justify-center gap-4">
-          <div className="mt-4 ml-8">
-            <SideBar />
+    <main className="flex h-screen bg-gray-100">
+      <SideBar />
+      <div className="flex-1 p-6">
+        <div className="flex gap-6">
+          <div className="w-1/3 space-y-6">
+            <SearchBox 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="mb-6"
+            />
+
+            {/* Tabs */}
+            <div className="flex gap-2 mb-6">
+              {['chats', 'friends', 'groups'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-4 py-2 rounded-lg capitalize transition-colors ${
+                    activeTab === tab 
+                      ? 'bg-indigo-600 text-white' 
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+
+            {/* Content based on active tab */}
+            <div className="space-y-4">
+              {activeTab === 'groups' && (
+                <div className="space-y-2">
+                  <h2 className="font-semibold text-gray-900">Groups</h2>
+                  {filteredGroups.map((group) => (
+                    <GroupPeople
+                      key={group.name}
+                      {...group}
+                      className="hover:bg-gray-50 transition-colors rounded-xl p-2"
+                    />
+                  ))}
+                </div>
+              )}
+
+              {activeTab === 'friends' && (
+                <div className="space-y-2">
+                  <h2 className="font-semibold text-gray-900">Friends</h2>
+                  {filteredPeople.map((person) => (
+                    <GroupPeople
+                      key={person.name}
+                      {...person}
+                      className="hover:bg-gray-50 transition-colors rounded-xl p-2"
+                    />
+                  ))}
+                </div>
+              )}
+
+              {activeTab === 'chats' && (
+                <>
+                  <div className="space-y-2">
+                    <h2 className="font-semibold text-gray-900">Recent Chats</h2>
+                    {filteredPeople.slice(0, 3).map((person) => (
+                      <GroupPeople
+                        key={person.name}
+                        {...person}
+                        className="hover:bg-gray-50 transition-colors rounded-xl p-2"
+                      />
+                    ))}
+                  </div>
+                  <div className="space-y-2 mt-6">
+                    <h2 className="font-semibold text-gray-900">Active Groups</h2>
+                    {filteredGroups.slice(0, 2).map((group) => (
+                      <GroupPeople
+                        key={group.name}
+                        {...group}
+                        className="hover:bg-gray-50 transition-colors rounded-xl p-2"
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
-          <div className="w-[26vw]">
-            <div>
-              <SearchBox />
-            </div>
-
-            <div className="border border-white rounded-2xl bg-white shadow-md shadow-blue-300 mt-10 ">
-              <h2 className="font-poppins font-bold mt-2 ml-2">Groups</h2>
-              {
-              groupData.map((group) => (
-                
-                <GroupPeople
-                key={group.name}
-                // messagePreview={group.messagePreview.concat("....") ? group.messagePreview.length > 10 : group.messagePreview} 
-                {...group}
-              />
-              ))}
-              
-            </div>
-
-            <div className="border border-white rounded-2xl bg-white shadow-md shadow-blue-300 mt-6"> 
-               <h2 className="font-poppins font-bold mt-2 ml-2">People</h2>
-              {
-                peopleData.map((people) => (
-                  <GroupPeople
-                  key={people.name}
-                  {...people}
-                  
-                  />
-                ))
-              }
-               </div>
+          {/* Chat Section */}
+          <div className="flex-1 bg-white rounded-2xl shadow-sm overflow-hidden">
+            <Chat 
+              username={currentUser.username}
+              currentUserId={currentUser.id}
+            />
           </div>
         </div>
-
-        <div className=" w-[50vw] bg-white rounded-2xl mt-4"> <Chat username={data.getCurrentUser.username}/> </div>
       </div>
+
+      {notification && (
+        <Toast
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
     </main>
   );
 }
