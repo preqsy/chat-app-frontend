@@ -16,5 +16,6 @@ export const useGetCurrentUser = () => {
     const token = localStorage.getItem("token")
     const {data, loading, error} = useQuery(GET_CURRENT_USER, {fetchPolicy: "network-only", variables:{token}})
     
+    
     return { data, loading, error}
 }
