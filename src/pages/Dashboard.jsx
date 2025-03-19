@@ -4,6 +4,7 @@ import SideBar from "../components/SideBar";
 import Chat from "../components/Chat";
 import SearchBox from "../components/Search";
 import GroupPeople from "../components/GroupPeople";
+import FriendList from "../components/FriendList";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Toast from "../components/Toast";
 import { useState } from "react";
@@ -37,29 +38,6 @@ export default function Dashboard() {
 
   localStorage.setItem("user", JSON.stringify(currentUser));
 
-  const groupData = [
-    {
-      name: "Friends Forever",
-      messagePreview: "Hahaha",
-      messageTime: "Today, 9:52pm",
-      messageAction: 4,
-      picture: Ellipis_1,
-    },
-    {
-      name: "Sporty Group",
-      messagePreview: "How far you play that game??",
-      messageTime: "Today, 9:52pm",
-      messageAction: 8,
-      picture: Ellipis_1,
-    },
-    {
-      name: "Girls Groupy",
-      messagePreview: "He's Cheating on me 😭",
-      messageTime: "Today, 9:52pm",
-      messageAction: 1,
-      picture: Ellipis_1,
-    },
-  ];
   const peopleData = [
     {
       name: "Obinna",
@@ -98,12 +76,23 @@ export default function Dashboard() {
     },
   ];
 
+  const newFriendsData = [
+    {
+      firstName: "Obinna",
+      lastName: "Ohanyere",
+    },
+    {
+      firstName: "Jadon",
+      lastName: "Sancho",
+    },
+    {
+      firstName: "Enzo",
+      lastName: "Fernandez",
+    },
+  ];
+
   const filteredPeople = peopleData.filter((person) =>
     person.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const filteredGroups = groupData.filter((group) =>
-    group.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -120,7 +109,7 @@ export default function Dashboard() {
 
             {/* Tabs */}
             <div className="flex gap-2 mb-6 cursor-pointer">
-              {["chats", "friends", "groups"].map((tab) => (
+              {["chats", "friends", "new friends"].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
@@ -137,18 +126,10 @@ export default function Dashboard() {
 
             {/* Content based on active tab */}
             <div className="space-y-4 overflow-y-auto flex-1">
-              {activeTab === "groups" && (
-                <div className="space-y-2">
-                  <h2 className="font-semibold text-gray-900">Groups</h2>
-                  {filteredGroups.map((group) => (
-                    <GroupPeople
-                      key={group.name}
-                      {...group}
-                      className="hover:bg-gray-50 transition-colors rounded-xl p-2"
-                    />
-                  ))}
-                </div>
-              )}
+              {activeTab === "new friends" &&
+                newFriendsData.map((newFriend) => (
+                  <FriendList key={newFriend.firstName} {...newFriend} />
+                ))}
 
               {activeTab === "friends" && (
                 <div className="space-y-2">
@@ -173,18 +154,6 @@ export default function Dashboard() {
                       <GroupPeople
                         key={person.name}
                         {...person}
-                        className="hover:bg-gray-50 transition-colors rounded-xl p-2"
-                      />
-                    ))}
-                  </div>
-                  <div className="space-y-2 mt-6">
-                    <h2 className="font-semibold text-gray-900">
-                      Active Groups
-                    </h2>
-                    {filteredGroups.slice(0, 2).map((group) => (
-                      <GroupPeople
-                        key={group.name}
-                        {...group}
                         className="hover:bg-gray-50 transition-colors rounded-xl p-2"
                       />
                     ))}
