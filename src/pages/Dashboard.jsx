@@ -1,4 +1,4 @@
-import { useGetCurrentUser } from "../hooks/useDashboard";
+import { useGetCurrentUser, useListNewFriends } from "../hooks/useDashboard";
 import { Navigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import Chat from "../components/Chat";
@@ -11,12 +11,21 @@ import { useState } from "react";
 import Ellipis_1 from "../assets/Ellipse_1.svg";
 
 export default function Dashboard() {
-  const { currentUser, loading, error } = useGetCurrentUser();
+  const { currentUser, loading: userLoading, error } = useGetCurrentUser();
+
+  const {
+    listUsers,
+    loading: friendLoading,
+    error: friendError,
+  } = useListNewFriends();
+
+  console.log("listUsers", listUsers);
+  console.log("listUsers type", typeof listUsers);
   const [activeTab, setActiveTab] = useState("chats"); // 'chats', 'friends', 'groups'
   const [searchQuery, setSearchQuery] = useState("");
   const [notification, setNotification] = useState(null);
 
-  if (loading) {
+  if (userLoading || friendLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <LoadingSpinner size="lg" />
@@ -76,20 +85,7 @@ export default function Dashboard() {
     },
   ];
 
-  const newFriendsData = [
-    {
-      firstName: "Obinna",
-      lastName: "Ohanyere",
-    },
-    {
-      firstName: "Jadon",
-      lastName: "Sancho",
-    },
-    {
-      firstName: "Enzo",
-      lastName: "Fernandez",
-    },
-  ];
+  const newFriendsData = listUsers || [];
 
   const filteredPeople = peopleData.filter((person) =>
     person.name.toLowerCase().includes(searchQuery.toLowerCase())
