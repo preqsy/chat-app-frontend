@@ -3,8 +3,9 @@ import { Navigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import Chat from "../components/Chat";
 import SearchBox from "../components/Search";
-import GroupPeople from "../components/GroupPeople";
-import FriendList from "../components/FriendList";
+import GroupPeople from "../components/Friends";
+import FriendList from "../components/AddFriends";
+import FriendRequest from "../components/FriendRequest";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Toast from "../components/Toast";
 import { useState } from "react";
@@ -105,19 +106,21 @@ export default function Dashboard() {
 
             {/* Tabs */}
             <div className="flex gap-2 mb-6 cursor-pointer">
-              {["chats", "friends", "new friends"].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-2 rounded-lg capitalize transition-colors ${
-                    activeTab === tab
-                      ? "bg-indigo-600 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
+              {["chats", "friends", "new friends", "friend requests"].map(
+                (tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-2 py-2 rounded-lg capitalize transition-colors cursor-pointer ${
+                      activeTab === tab
+                        ? "bg-indigo-600 text-white"
+                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    }`}
+                  >
+                    {tab}
+                  </button>
+                )
+              )}
             </div>
 
             {/* Content based on active tab */}
@@ -125,6 +128,10 @@ export default function Dashboard() {
               {activeTab === "new friends" &&
                 newFriendsData.map((newFriend) => (
                   <FriendList key={newFriend.firstName} {...newFriend} />
+                ))}
+              {activeTab === "friend requests" &&
+                newFriendsData.map((newFriend) => (
+                  <FriendRequest key={newFriend.firstName} {...newFriend} />
                 ))}
 
               {activeTab === "friends" && (
