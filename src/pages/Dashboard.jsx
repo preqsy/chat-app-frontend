@@ -93,7 +93,7 @@ export default function Dashboard() {
   );
 
   return (
-    <main className="flex h-screen bg-gray-100">
+    <main className="flex h-screen bg-gray-900">
       <SideBar />
       <div className="flex-1 flex flex-col p-6 h-screen">
         <div className="flex gap-6 h-full">
@@ -114,7 +114,7 @@ export default function Dashboard() {
                     className={`px-2 py-2 rounded-lg capitalize transition-colors cursor-pointer ${
                       activeTab === tab
                         ? "bg-indigo-600 text-white"
-                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                        : "bg-gray-100 text-gray-600 hover:bg-indigo-400"
                     }`}
                   >
                     {tab}
@@ -141,7 +141,7 @@ export default function Dashboard() {
                     <GroupPeople
                       key={person.name}
                       {...person}
-                      className="hover:bg-gray-50 transition-colors rounded-xl p-2"
+                      className="hover:bg-gray-50 transition-colors rounded-xl p-2 text-white"
                     />
                   ))}
                 </div>
@@ -150,9 +150,7 @@ export default function Dashboard() {
               {activeTab === "chats" && (
                 <>
                   <div className="space-y-2">
-                    <h2 className="font-semibold text-gray-900">
-                      Recent Chats
-                    </h2>
+                    <h2 className="font-semibold text-white">Recent Chats</h2>
                     {filteredPeople.slice(0, 3).map((person) => (
                       <GroupPeople
                         key={person.name}

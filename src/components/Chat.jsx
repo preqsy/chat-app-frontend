@@ -33,7 +33,7 @@ export default function Chat({ username, currentUserId, receiverId }) {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-black">
       <ChatHeader
         user={{
           name: "Other User",
