@@ -118,7 +118,7 @@ export default function Login() {
             </a>
           </div>
 
-          <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-lg transition ">
+          <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-lg transition cursor-pointer">
             {loading ? <LoadingSpinner size="sm" /> : "Sign In"}
           </Button>
         </form>
@@ -136,7 +136,7 @@ export default function Login() {
 
         <div className="flex items-center border justify-center border-gray-300 text-black bg-white p-3 mt-4 rounded-lg w-[53.5%] hover:bg-gray-100 transition-all">
           <img src={GoogleImg} alt="Google" width={30} height={30} />
-          <Button className="ml-2">Continue with Google</Button>
+          <Button className="ml-2 cursor-pointer">Continue with Google</Button>
         </div>
 
         <p className="mt-8 text-sm">

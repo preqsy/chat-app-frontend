@@ -111,14 +111,14 @@ export default function Register() {
           ))}
 
           <Button
-            className="col-span-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-lg transition-all"
+            className="col-span-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-lg transition-all cursor-pointer"
             disabled={loading}
           >
             {loading ? <LoadingSpinner size="sm" /> : "Create Account"}
           </Button>
         </form>
 
-        <div className="flex items-center border justify-center border-gray-300 text-black bg-white p-3 mt-4 rounded-lg w-4/5 hover:bg-gray-100 transition-all">
+        <div className="flex items-center border justify-center border-gray-300 text-black bg-white p-3 mt-4 rounded-lg w-4/5 hover:bg-gray-100 transition-all cursor-pointer">
           <img src={GoogleImg} alt="Google" width={30} height={30} />
           <Button className="ml-2 text-black">Continue with Google</Button>
         </div>
