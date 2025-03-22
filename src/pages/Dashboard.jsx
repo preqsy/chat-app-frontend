@@ -93,7 +93,7 @@ export default function Dashboard() {
   );
 
   return (
-    <main className="flex h-screen bg-gray-900">
+    <main className="flex h-screen bg-black">
       <SideBar />
       <div className="flex-1 flex flex-col p-6 h-screen">
         <div className="flex gap-6 h-full">
@@ -167,7 +167,7 @@ export default function Dashboard() {
           {/* Chat Section */}
           <div className="flex-1 bg-white rounded-2xl shadow-sm overflow-hidden">
             <Chat
-              username={currentUser.username}
+              username={currentUser.userame}
               currentUserId={currentUser.id}
             />
           </div>
