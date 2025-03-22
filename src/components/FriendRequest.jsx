@@ -1,17 +1,31 @@
 import { useState } from "react";
 import PeopleList from "./People";
-import { useAddNewFriend } from "../hooks/useDashboard";
+import {
+  useAcceptFriendRequest,
+  useListFriendRequest,
+} from "../hooks/useDashboard";
 import LoadingSpinner from "../components/LoadingSpinner";
 
-export default function FriendRequest(props) {
-  const { sendFriendRequest, data, loading, error } = useAddNewFriend();
+export default function FriendRequest() {
+  const {
+    acceptFriendRequest,
+    data,
+    loading: acceptFriendLoading,
+    error: acceptFriendError,
+  } = useAcceptFriendRequest();
 
-  const addFriend = async (e) => {
+  const {
+    listFriendRequests,
+    loading: friendRequestLoading,
+    error: listRequestError,
+  } = useListFriendRequest();
+
+  const handleAcceptFriendRequest = async (e) => {
     e.preventDefault();
     try {
-      const response = await sendFriendRequest({
+      const response = await acceptFriendRequest({
         variables: {
-          receiver_id: props.id,
+          sender_id: props.id,
         },
       });
       console.log("Response: ", response);
@@ -20,21 +34,24 @@ export default function FriendRequest(props) {
     }
   };
 
-  if (loading)
+  if (acceptFriendLoading || friendRequestLoading)
     return (
       <div className="flex items-center justify-center h-screen">
         <LoadingSpinner size="lg" />
       </div>
     );
-  console.log("These are the props", props);
+  console.log("These are the props", listFriendRequests);
 
   return (
     <>
-      <PeopleList
-        firstName={props.firstName}
-        lastName={props.lastName}
-        onClick={addFriend}
-      />
+      {listFriendRequests.map((friendRequest) => (
+        <PeopleList
+          key={friendRequest.id}
+          firstName={friendRequest.firstName}
+          lastName={friendRequest.lastName}
+          onClick={handleAcceptFriendRequest}
+        />
+      ))}
     </>
   );
 }

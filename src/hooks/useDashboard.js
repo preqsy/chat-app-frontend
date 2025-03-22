@@ -26,6 +26,16 @@ const LIST_NEW_FRIENDS = gql`
     }
   }
 `;
+const LIST_FRIEND_REQUEST = gql`
+  query ListUsers($filters: Filters) {
+    listFriendRequest(filters: $filters) {
+      firstName
+      lastName
+      id
+      email
+    }
+  }
+`;
 
 const ADD_NEW_FRIEND = gql`
   mutation SendFriendRequest($receiver_id: Int!) {
@@ -38,7 +48,14 @@ const ADD_NEW_FRIEND = gql`
     }
   }
 `
-
+const ACCEPT_FRIEND_REQUEST = gql `
+mutation AcceptFriendRequest($sender_id: Int!){
+  acceptFriendRequest(sender_id:$sender_id){
+    id
+    firstName
+  }
+}
+`
 
 export const useGetCurrentUser = () => {
   const navigate = useNavigate();
@@ -100,9 +117,29 @@ export const useListNewFriends = () => {
     refetch, // Allow refetching
   };
 };
+export const useListFriendRequest = () => {
+  const { data, loading, error, refetch } = useQuery(LIST_FRIEND_REQUEST, {
+    variables: { filters: { skip: 0, limit: 10 } }, // Pass filter variables correctly
+    onError: (error) => {
+      console.error("Getting users error:", error.message);
+    },
+  });
+
+  return {
+    listFriendRequests: data?.listFriendRequest || [],
+    loading,
+    error,
+    refetch, // Allow refetching
+  };
+};
 
 
 export const useAddNewFriend = () => {
   const [sendFriendRequest, {data, loading, error}] = useMutation(ADD_NEW_FRIEND)
   return {sendFriendRequest, data, loading, error}
+}
+
+export const useAcceptFriendRequest = () => {
+  const [acceptFriendRequest, {data, loading, error}] = useMutation(ACCEPT_FRIEND_REQUEST)
+  return {acceptFriendRequest, data, loading, error}
 }

@@ -21,7 +21,6 @@ export default function Dashboard() {
   } = useListNewFriends();
 
   console.log("listUsers", listUsers);
-  console.log("listUsers type", typeof listUsers);
   const [activeTab, setActiveTab] = useState("chats"); // 'chats', 'friends', 'groups'
   const [searchQuery, setSearchQuery] = useState("");
   const [notification, setNotification] = useState(null);
@@ -129,10 +128,7 @@ export default function Dashboard() {
                 newFriendsData.map((newFriend) => (
                   <FriendList key={newFriend.firstName} {...newFriend} />
                 ))}
-              {activeTab === "friend requests" &&
-                newFriendsData.map((newFriend) => (
-                  <FriendRequest key={newFriend.firstName} {...newFriend} />
-                ))}
+              {activeTab === "friend requests" && <FriendRequest />}
 
               {activeTab === "friends" && (
                 <div className="space-y-2">
