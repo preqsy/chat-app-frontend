@@ -32,7 +32,7 @@ export default function Register() {
     if (!formData.lastName) errors.lastName = "Last name is required";
     if (!formData.username) errors.username = "Username is required";
     if (!formData.email) errors.email = "Email is required";
-    if (!formData.password || formData.password.length < 6) {
+    if (!formData.password || formData.password.length < 4) {
       errors.password = "Password must be at least 6 characters";
     }
     setFormErrors(errors);

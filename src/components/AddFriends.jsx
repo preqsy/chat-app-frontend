@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PeopleList from "./People";
 import { useAddNewFriend, useListNewFriends } from "../hooks/useDashboard";
 import LoadingSpinner from "./LoadingSpinner";
@@ -11,20 +11,27 @@ export default function FriendsList() {
     error: friendError,
   } = useListNewFriends();
 
+  const [listNewUser, setListNewUser] = useState([]);
+
+  useEffect(() => {
+    setListNewUser(listUsers);
+  }, [listUsers]);
+
   const addFriend = async (e, id) => {
     e.preventDefault();
     try {
-      const response = await sendFriendRequest({
+      await sendFriendRequest({
         variables: {
           receiver_id: id,
         },
       });
-      console.log("Response: ", response);
+      setListNewUser((prevFriend) =>
+        prevFriend.filter((request) => request.id !== id)
+      );
     } catch (error) {
       console.log("Error adding friend", error);
     }
   };
-  const newFriendsData = listUsers || [];
 
   if (loading || friendLoading)
     return (
@@ -34,7 +41,7 @@ export default function FriendsList() {
     );
   return (
     <>
-      {newFriendsData.map((friend) => (
+      {listNewUser.map((friend) => (
         <PeopleList
           key={friend.id}
           firstName={friend.firstName}

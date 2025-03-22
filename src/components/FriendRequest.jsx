@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PeopleList from "./People";
 import {
   useAcceptFriendRequest,
@@ -9,7 +9,6 @@ import LoadingSpinner from "../components/LoadingSpinner";
 export default function FriendRequest() {
   const {
     acceptFriendRequest,
-    data,
     loading: acceptFriendLoading,
     error: acceptFriendError,
   } = useAcceptFriendRequest();
@@ -20,17 +19,28 @@ export default function FriendRequest() {
     error: listRequestError,
   } = useListFriendRequests();
 
+  // Sync state with fetched data
+  const [friendRequests, setFriendRequests] = useState([]);
+
+  useEffect(() => {
+    setFriendRequests(listFriendRequests);
+  }, [listFriendRequests]);
+
   const handleAcceptFriendRequest = async (e, id) => {
     e.preventDefault();
     try {
-      const response = await acceptFriendRequest({
+      await acceptFriendRequest({
         variables: {
           sender_id: id,
         },
       });
-      console.log("Response: ", response);
+
+      // Remove accepted friend request from state
+      setFriendRequests((prevRequests) =>
+        prevRequests.filter((request) => request.id !== id)
+      );
     } catch (error) {
-      console.log("Error adding friend", error);
+      console.error("Error adding friend", error);
     }
   };
 
@@ -40,11 +50,12 @@ export default function FriendRequest() {
         <LoadingSpinner size="lg" />
       </div>
     );
-  console.log("These are the props", listFriendRequests);
+
+  console.log("These are the props", friendRequests);
 
   return (
     <>
-      {listFriendRequests.map((friendRequest) => (
+      {friendRequests.map((friendRequest) => (
         <PeopleList
           key={friendRequest.id}
           firstName={friendRequest.firstName}
