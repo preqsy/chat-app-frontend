@@ -3,7 +3,8 @@ import { Navigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import Chat from "../components/Chat";
 import SearchBox from "../components/Search";
-import GroupPeople from "../components/Friends";
+import Friends from "../components/Friends";
+import RecentChats from "../components/RecentChats";
 import FriendList from "../components/AddFriends";
 import FriendRequest from "../components/FriendRequest";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -120,14 +121,8 @@ export default function Dashboard() {
 
               {activeTab === "friends" && (
                 <div className="space-y-2">
-                  <h2 className="font-semibold text-gray-900">Friends</h2>
-                  {filteredPeople.map((person) => (
-                    <GroupPeople
-                      key={person.name}
-                      {...person}
-                      className="hover:bg-gray-50 transition-colors rounded-xl p-2 text-white"
-                    />
-                  ))}
+                  <h2 className="font-semibold">Friends</h2>
+                  <Friends />
                 </div>
               )}
 
@@ -136,7 +131,7 @@ export default function Dashboard() {
                   <div className="space-y-2">
                     <h2 className="font-semibold text-white">Recent Chats</h2>
                     {filteredPeople.slice(0, 3).map((person) => (
-                      <GroupPeople
+                      <RecentChats
                         key={person.name}
                         {...person}
                         className="hover:bg-gray-50 transition-colors rounded-xl p-2"

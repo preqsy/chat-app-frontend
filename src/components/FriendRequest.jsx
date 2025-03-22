@@ -2,7 +2,7 @@ import { useState } from "react";
 import PeopleList from "./People";
 import {
   useAcceptFriendRequest,
-  useListFriendRequest,
+  useListFriendRequests,
 } from "../hooks/useDashboard";
 import LoadingSpinner from "../components/LoadingSpinner";
 
@@ -18,7 +18,7 @@ export default function FriendRequest() {
     listFriendRequests,
     loading: friendRequestLoading,
     error: listRequestError,
-  } = useListFriendRequest();
+  } = useListFriendRequests();
 
   const handleAcceptFriendRequest = async (e, id) => {
     e.preventDefault();

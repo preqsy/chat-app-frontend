@@ -26,9 +26,19 @@ const LIST_NEW_FRIENDS = gql`
     }
   }
 `;
-const LIST_FRIEND_REQUEST = gql`
-  query ListUsers($filters: Filters) {
-    listFriendRequest(filters: $filters) {
+const LIST_FRIEND_REQUESTS = gql`
+  query ListFriendRequests($filters: Filters) {
+    listFriendRequests(filters: $filters) {
+      firstName
+      lastName
+      id
+      email
+    }
+  }
+`;
+const LIST_FRIENDS = gql`
+  query ListFriends($filters: Filters) {
+    listFriends(filters: $filters) {
       firstName
       lastName
       id
@@ -117,8 +127,8 @@ export const useListNewFriends = () => {
     refetch, // Allow refetching
   };
 };
-export const useListFriendRequest = () => {
-  const { data, loading, error, refetch } = useQuery(LIST_FRIEND_REQUEST, {
+export const useListFriendRequests = () => {
+  const { data, loading, error, refetch } = useQuery(LIST_FRIEND_REQUESTS, {
     variables: { filters: { skip: 0, limit: 10 } }, // Pass filter variables correctly
     onError: (error) => {
       console.error("Getting users error:", error.message);
@@ -126,7 +136,22 @@ export const useListFriendRequest = () => {
   });
 
   return {
-    listFriendRequests: data?.listFriendRequest || [],
+    listFriendRequests: data?.listFriendRequests || [],
+    loading,
+    error,
+    refetch, // Allow refetching
+  };
+};
+export const useListFriends = () => {
+  const { data, loading, error, refetch } = useQuery(LIST_FRIENDS, {
+    variables: { filters: { skip: 0, limit: 10 } }, // Pass filter variables correctly
+    onError: (error) => {
+      console.error("Getting users error:", error.message);
+    },
+  });
+
+  return {
+    listFriends: data?.listFriends || [],
     loading,
     error,
     refetch, // Allow refetching

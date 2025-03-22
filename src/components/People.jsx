@@ -5,6 +5,7 @@ export default function PeopleList({
   lastName,
   onClick,
   buttonName = "Add Friends",
+  showButton = true,
 }) {
   return (
     <div className="mb-8">
@@ -15,17 +16,19 @@ export default function PeopleList({
             {firstName} {lastName}
           </p>
 
-          <div className="flex gap-2 items-center">
-            <button
-              className="p-2 bg-indigo-600 text-white rounded w-30 cursor-pointer"
-              onClick={onClick}
-            >
-              {buttonName}
-            </button>
-            <button className="p-2 bg-white text-indigo-600 rounded w-30 cursor-pointer">
-              View Profile
-            </button>
-          </div>
+          {showButton && (
+            <div className="flex gap-2 items-center">
+              <button
+                className="p-2 bg-indigo-600 text-white rounded w-30 cursor-pointer"
+                onClick={onClick}
+              >
+                {buttonName}
+              </button>
+              <button className="p-2 bg-white text-indigo-600 rounded w-30 cursor-pointer">
+                View Profile
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
