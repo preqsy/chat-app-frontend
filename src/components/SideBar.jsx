@@ -104,7 +104,7 @@ export default function SideBar() {
       <div className="relative">
         <button
           onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-          className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 hover:border-indigo-600 transition-colors"
+          className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 hover:border-indigo-600 transition-colors "
         >
           <img
             src={Vector}
@@ -114,10 +114,10 @@ export default function SideBar() {
         </button>
 
         {isSettingsOpen && (
-          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 bg-white rounded-lg shadow-lg py-1 border border-gray-200">
+          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 bg-indigo-600 rounded-lg shadow-lg py-1 border border-gray-200">
             <Link
               to="/profile"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              className="block px-4 py-2 text-sm t hover:bg-gray-100 text-black"
             >
               Profile
             </Link>
