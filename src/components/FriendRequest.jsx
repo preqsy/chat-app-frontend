@@ -20,12 +20,12 @@ export default function FriendRequest() {
     error: listRequestError,
   } = useListFriendRequest();
 
-  const handleAcceptFriendRequest = async (e) => {
+  const handleAcceptFriendRequest = async (e, id) => {
     e.preventDefault();
     try {
       const response = await acceptFriendRequest({
         variables: {
-          sender_id: props.id,
+          sender_id: id,
         },
       });
       console.log("Response: ", response);
@@ -49,7 +49,8 @@ export default function FriendRequest() {
           key={friendRequest.id}
           firstName={friendRequest.firstName}
           lastName={friendRequest.lastName}
-          onClick={handleAcceptFriendRequest}
+          onClick={(e) => handleAcceptFriendRequest(e, friendRequest.id)}
+          buttonName="Add Friend"
         />
       ))}
     </>

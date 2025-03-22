@@ -1,6 +1,11 @@
 import Ellipis_1 from "../assets/Ellipse_1.svg";
 
-export default function PeopleList({ firstName, lastName, onClick }) {
+export default function PeopleList({
+  firstName,
+  lastName,
+  onClick,
+  buttonName = "Add Friends",
+}) {
   return (
     <div className="mb-8">
       <div className="flex gap-2 ">
@@ -15,7 +20,7 @@ export default function PeopleList({ firstName, lastName, onClick }) {
               className="p-2 bg-indigo-600 text-white rounded w-30 cursor-pointer"
               onClick={onClick}
             >
-              Add Friend
+              {buttonName}
             </button>
             <button className="p-2 bg-white text-indigo-600 rounded w-30 cursor-pointer">
               View Profile

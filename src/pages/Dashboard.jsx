@@ -1,4 +1,4 @@
-import { useGetCurrentUser, useListNewFriends } from "../hooks/useDashboard";
+import { useGetCurrentUser } from "../hooks/useDashboard";
 import { Navigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import Chat from "../components/Chat";
@@ -14,18 +14,11 @@ import Ellipis_1 from "../assets/Ellipse_1.svg";
 export default function Dashboard() {
   const { currentUser, loading: userLoading, error } = useGetCurrentUser();
 
-  const {
-    listUsers,
-    loading: friendLoading,
-    error: friendError,
-  } = useListNewFriends();
-
-  console.log("listUsers", listUsers);
   const [activeTab, setActiveTab] = useState("chats"); // 'chats', 'friends', 'groups'
   const [searchQuery, setSearchQuery] = useState("");
   const [notification, setNotification] = useState(null);
 
-  if (userLoading || friendLoading) {
+  if (userLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <LoadingSpinner size="lg" />
@@ -85,8 +78,6 @@ export default function Dashboard() {
     },
   ];
 
-  const newFriendsData = listUsers || [];
-
   const filteredPeople = peopleData.filter((person) =>
     person.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -124,10 +115,7 @@ export default function Dashboard() {
 
             {/* Content based on active tab */}
             <div className="space-y-4 overflow-y-auto flex-1">
-              {activeTab === "new friends" &&
-                newFriendsData.map((newFriend) => (
-                  <FriendList key={newFriend.firstName} {...newFriend} />
-                ))}
+              {activeTab === "new friends" && <FriendList />}
               {activeTab === "friend requests" && <FriendRequest />}
 
               {activeTab === "friends" && (
