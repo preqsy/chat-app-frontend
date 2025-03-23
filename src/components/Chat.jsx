@@ -6,9 +6,11 @@ import { useChat } from "../hooks/useChat";
 import Toast from "./Toast";
 import Vector from "../assets/Vector.svg";
 
-export default function Chat({ username, currentUserId, receiverId }) {
+export default function Chat({ sender, receiver }) {
+  console.log("This is receiver", receiver);
+  // console.log("This is currentUserId", sender);
   const [notification, setNotification] = useState(null);
-  const { messages, sendMessage, loading, error } = useChat(currentUserId);
+  const { messages, sendMessage, loading, error } = useChat(sender);
 
   useEffect(() => {
     if (error) {
@@ -22,8 +24,8 @@ export default function Chat({ username, currentUserId, receiverId }) {
   const handleSendMessage = async (messageData) => {
     try {
       console.log("Sending message:", messageData);
-      console.log("Receiver ID:", receiverId);
-      await sendMessage(3, messageData.text);
+      console.log("Receiver ID:", receiver.id);
+      await sendMessage(receiver, messageData.text);
     } catch (error) {
       setNotification({
         type: "error",
@@ -36,7 +38,7 @@ export default function Chat({ username, currentUserId, receiverId }) {
     <div className="flex flex-col h-full bg-gray-900">
       <ChatHeader
         user={{
-          name: "Other User",
+          name: receiver.username,
           status: "online",
           avatar: { Vector },
         }}
@@ -53,7 +55,7 @@ export default function Chat({ username, currentUserId, receiverId }) {
               id: message.id,
               text: message.content,
               time: message.createdAt,
-              isSender: message.sender_id === currentUserId,
+              isSender: message.sender_id === sender,
             }}
           />
         ))}

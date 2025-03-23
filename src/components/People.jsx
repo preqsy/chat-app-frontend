@@ -9,7 +9,7 @@ export default function PeopleList({
 }) {
   return (
     <div className="mb-8">
-      <div className="flex gap-2 ">
+      <div className="flex gap-2 cursor-pointer" onClick={onClick}>
         <img src={Ellipis_1} alt="" />
         <div className="flex flex-col gap-2">
           <p className="font-poppins">

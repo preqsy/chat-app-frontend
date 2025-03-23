@@ -4,13 +4,14 @@ export default function ChatHeader({
   onVoiceCall,
   onMoreOptions,
 }) {
+  console.log("This is the chatheader user", user);
   return (
     <div className="flex items-center justify-between p-4 border-b border-indigo-600">
       <div className="flex items-center gap-3">
         <div className="relative">
           <img
             src={user.avatar}
-            alt={user.name}
+            // alt={user.username}
             className="w-10 h-10 rounded-full object-cover"
           />
           <span
@@ -21,7 +22,7 @@ export default function ChatHeader({
         </div>
 
         <div>
-          <h2 className="font-medium text-white">{user.name}</h2>
+          <p className="font-medium text-white">{user.name}</p>
           <p className="text-sm text-gray-500">
             {user.status === "online" ? (
               <span className="text-green-500">Online</span>

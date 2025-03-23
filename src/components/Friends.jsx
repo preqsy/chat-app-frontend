@@ -3,22 +3,8 @@ import PeopleList from "./People";
 import { useListFriends } from "../hooks/useDashboard";
 import LoadingSpinner from "../components/LoadingSpinner";
 
-export default function Friends() {
+export default function Friends({ setSelectedFriend }) {
   const { listFriends, data, loading, error } = useListFriends();
-
-  // const handleAcceptFriendRequest = async (e, id) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await acceptFriendRequest({
-  //       variables: {
-  //         sender_id: id,
-  //       },
-  //     });
-  //     console.log("Response: ", response);
-  //   } catch (error) {
-  //     console.log("Error adding friend", error);
-  //   }
-  // };
 
   if (loading)
     return (
@@ -26,7 +12,7 @@ export default function Friends() {
         <LoadingSpinner size="lg" />
       </div>
     );
-  console.log("These are the props", listFriends);
+  // console.log("These are the props", listFriends);
 
   return (
     <>
@@ -36,6 +22,7 @@ export default function Friends() {
           firstName={friend.firstName}
           lastName={friend.lastName}
           showButton={false}
+          onClick={() => setSelectedFriend(friend)}
         />
       ))}
     </>

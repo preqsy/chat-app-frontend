@@ -43,6 +43,7 @@ const LIST_FRIENDS = gql`
       lastName
       id
       email
+      username
     }
   }
 `;

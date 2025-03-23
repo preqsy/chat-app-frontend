@@ -4,11 +4,13 @@ export default function RecentChats({
   messageTime,
   messageAction,
   picture,
+  onClick,
   className = "",
 }) {
   return (
     <div
       className={`flex items-center gap-3 cursor-pointer ${className} group`}
+      onClick={onClick}
     >
       <div className="relative">
         <img

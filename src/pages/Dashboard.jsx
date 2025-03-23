@@ -18,6 +18,9 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("chats"); // 'chats', 'friends', 'groups'
   const [searchQuery, setSearchQuery] = useState("");
   const [notification, setNotification] = useState(null);
+  const [selectedFriend, setSelectedFriend] = useState(null);
+
+  // console.log("Selected friend:", selectedFriend);
 
   if (userLoading) {
     return (
@@ -43,6 +46,7 @@ export default function Dashboard() {
 
   const peopleData = [
     {
+      id: 1,
       name: "Obinna",
       messagePreview: "Hahaha",
       messageTime: "Today, 9:52pm",
@@ -50,6 +54,7 @@ export default function Dashboard() {
       picture: Ellipis_1,
     },
     {
+      id: 2,
       name: "Crazy bro",
       messagePreview: "How far you play that game??",
       messageTime: "Today, 9:52pm",
@@ -57,6 +62,7 @@ export default function Dashboard() {
       picture: Ellipis_1,
     },
     {
+      id: 3,
       name: "Young Wolf",
       messagePreview: "He's Cheating on me 😭",
       messageTime: "Today, 9:52pm",
@@ -64,6 +70,7 @@ export default function Dashboard() {
       picture: Ellipis_1,
     },
     {
+      id: 4,
       name: "Prehqsy",
       messagePreview: "How far you play that game??",
       messageTime: "Today, 9:52pm",
@@ -71,6 +78,7 @@ export default function Dashboard() {
       picture: Ellipis_1,
     },
     {
+      id: 5,
       name: "Mountain",
       messagePreview: "He's Cheating on me 😭",
       messageTime: "Today, 9:52pm",
@@ -122,7 +130,7 @@ export default function Dashboard() {
               {activeTab === "friends" && (
                 <div className="space-y-2">
                   <h2 className="font-semibold">Friends</h2>
-                  <Friends />
+                  <Friends setSelectedFriend={setSelectedFriend} />
                 </div>
               )}
 
@@ -135,6 +143,10 @@ export default function Dashboard() {
                         key={person.name}
                         {...person}
                         className="hover:bg-gray-50 transition-colors rounded-xl p-2"
+                        onClick={() => {
+                          console.log("Clicked person:", person);
+                          setSelectedFriend(person);
+                        }}
                       />
                     ))}
                   </div>
@@ -144,12 +156,11 @@ export default function Dashboard() {
           </div>
 
           {/* Chat Section */}
-          <div className="flex-1 bg-white rounded-2xl shadow-sm overflow-hidden">
-            <Chat
-              username={currentUser.userame}
-              currentUserId={currentUser.id}
-            />
-          </div>
+          {selectedFriend && (
+            <div className="flex-1 bg-white rounded-2xl shadow-sm overflow-hidden">
+              <Chat sender={currentUser} receiver={selectedFriend} />
+            </div>
+          )}
         </div>
       </div>
 
