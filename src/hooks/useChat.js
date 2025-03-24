@@ -15,6 +15,7 @@ const SEND_MESSAGE = gql`
 `;
 
 const NEW_MESSAGE_SUBSCRIPTION = gql`
+
   subscription OnNewMessage($receiverId: Int!) {
     newMessage(receiver_id: $receiverId) {
       id
@@ -26,7 +27,9 @@ const NEW_MESSAGE_SUBSCRIPTION = gql`
   }
 `;
 
-export const useChat = (userId) => {
+export const useChat = (user) => {
+  console.log("useChat userId", user)
+  const userId = Number(user.id)
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState(null);
 
@@ -42,7 +45,7 @@ export const useChat = (userId) => {
   const { data: newMessageData, loading: subscriptionLoading } = useSubscription(
     NEW_MESSAGE_SUBSCRIPTION,
     {
-      variables: { receiverId: Number(userId) },
+      variables: { receiverId: userId },
       skip: !userId,
       onError: (error) => {
         console.error('Subscription error:', error);
@@ -59,13 +62,15 @@ export const useChat = (userId) => {
   }, [newMessageData, setMessages]);
 
   // Send message handler with retry logic
-  const handleSendMessage = useCallback(async (receiverId, content) => {
+  const handleSendMessage = useCallback(async (receiver, content) => {
+    console.log("This is the content", content)
+    console.log("This is the  handleSendMessage receiver", Number(receiver.id))
     try {
       const { data } = await sendMessageMutation({
         variables: {
           input: {
             content: content.trim(),
-            receiver_id: Number(receiverId),
+            receiver_id: Number(receiver.id),
             sender_id: Number(userId)
           }
         }

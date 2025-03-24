@@ -10,7 +10,7 @@ export default function Chat({ sender, receiver }) {
   console.log("This is receiver", receiver);
   // console.log("This is currentUserId", sender);
   const [notification, setNotification] = useState(null);
-  const { messages, sendMessage, loading, error } = useChat(sender);
+  const { messages, sendMessage, loading, error } = useChat(receiver);
 
   useEffect(() => {
     if (error) {

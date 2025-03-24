@@ -4,7 +4,7 @@ export default function ChatHeader({
   onVoiceCall,
   onMoreOptions,
 }) {
-  console.log("This is the chatheader user", user);
+  // console.log("This is the chatheader user", user);
   return (
     <div className="flex items-center justify-between p-4 border-b border-indigo-600">
       <div className="flex items-center gap-3">
