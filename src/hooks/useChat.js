@@ -74,10 +74,15 @@ export const useChat = (user) => {
           }
         }
       });
-
+      
       if (data?.sendMessage) {
-  return data.sendMessage; // Do not add manually
-}
+        setMessages(prev => [...prev, data.sendMessage]);  // <--- Message added manually
+        return data.sendMessage;
+      }
+
+  //  if (data?.sendMessage) {
+  //       return data.sendMessage; // Do not add manually
+  //    }
 
     } catch (error) {
       console.error('Failed to send message:', error);

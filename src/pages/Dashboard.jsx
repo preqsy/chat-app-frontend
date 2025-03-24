@@ -20,8 +20,6 @@ export default function Dashboard() {
   const [notification, setNotification] = useState(null);
   const [selectedFriend, setSelectedFriend] = useState(null);
 
-  // console.log("Selected friend:", selectedFriend);
-
   if (userLoading) {
     return (
       <div className="flex items-center justify-center h-screen">

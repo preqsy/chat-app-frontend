@@ -7,6 +7,7 @@ import Toast from "./Toast";
 import Vector from "../assets/Vector.svg";
 
 export default function Chat({ sender, receiver }) {
+  console.log("This is the sender", sender);
   const [notification, setNotification] = useState(null);
   const { messages, sendMessage, loading, error } = useChat(sender);
 
@@ -51,7 +52,7 @@ export default function Chat({ sender, receiver }) {
               id: message.id,
               text: message.content,
               time: message.createdAt,
-              isSender: message.sender_id === sender,
+              isSender: message.sender_id === sender.id,
             }}
           />
         ))}

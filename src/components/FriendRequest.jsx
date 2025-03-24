@@ -51,8 +51,6 @@ export default function FriendRequest() {
       </div>
     );
 
-  console.log("These are the props", friendRequests);
-
   return (
     <>
       {friendRequests.map((friendRequest) => (
