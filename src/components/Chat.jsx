@@ -7,10 +7,8 @@ import Toast from "./Toast";
 import Vector from "../assets/Vector.svg";
 
 export default function Chat({ sender, receiver }) {
-  console.log("This is receiver", receiver);
-  // console.log("This is currentUserId", sender);
   const [notification, setNotification] = useState(null);
-  const { messages, sendMessage, loading, error } = useChat(receiver);
+  const { messages, sendMessage, loading, error } = useChat(sender);
 
   useEffect(() => {
     if (error) {
@@ -23,8 +21,6 @@ export default function Chat({ sender, receiver }) {
 
   const handleSendMessage = async (messageData) => {
     try {
-      console.log("Sending message:", messageData);
-      console.log("Receiver ID:", receiver.id);
       await sendMessage(receiver, messageData.text);
     } catch (error) {
       setNotification({

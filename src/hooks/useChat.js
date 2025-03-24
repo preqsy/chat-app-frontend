@@ -28,7 +28,7 @@ const NEW_MESSAGE_SUBSCRIPTION = gql`
 `;
 
 export const useChat = (user) => {
-  console.log("useChat userId", user)
+
   const userId = Number(user.id)
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState(null);
@@ -57,14 +57,13 @@ export const useChat = (user) => {
   // Handle new messages
   useEffect(() => {
     if (newMessageData?.newMessage) {
+      console.log("useEffect new message data", newMessageData)
       setMessages(prev => [...prev, newMessageData.newMessage]);
     }
   }, [newMessageData, setMessages]);
 
   // Send message handler with retry logic
   const handleSendMessage = useCallback(async (receiver, content) => {
-    console.log("This is the content", content)
-    console.log("This is the  handleSendMessage receiver", Number(receiver.id))
     try {
       const { data } = await sendMessageMutation({
         variables: {
@@ -77,9 +76,9 @@ export const useChat = (user) => {
       });
 
       if (data?.sendMessage) {
-        setMessages(prev => [...prev, data.sendMessage]);
-        return data.sendMessage;
-      }
+  return data.sendMessage; // Do not add manually
+}
+
     } catch (error) {
       console.error('Failed to send message:', error);
       setError('Failed to send message');

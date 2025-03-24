@@ -6,7 +6,6 @@ export default function ChatInput({ onSend, onTyping }) {
   const [attachments, setAttachments] = useState([]);
   const fileInputRef = useRef(null);
   const textareaRef = useRef(null);
-  console.log("This is the message", message);
 
   // Auto-resize textarea
   const adjustTextareaHeight = (textarea) => {
