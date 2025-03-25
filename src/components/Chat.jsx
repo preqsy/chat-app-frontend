@@ -52,8 +52,8 @@ export default function Chat({ sender, receiver }) {
               id: message.id,
               text: message.content,
               time: message.createdAt,
-              isSender: message.sender_id === sender.id,
             }}
+            isSender={message.sender_id === sender.id}
           />
         ))}
       </div>
