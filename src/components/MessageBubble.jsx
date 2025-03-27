@@ -15,11 +15,6 @@ export default function MessageBubble({ message, isSender }) {
     }
   };
 
-  const handleReaction = (emoji) => {
-    console.log("Reacting with:", emoji);
-    // Here you would typically send the reaction to your backend
-  };
-
   return (
     <div
       className={`group flex items-end gap-2 ${
@@ -40,32 +35,6 @@ export default function MessageBubble({ message, isSender }) {
       {/* Message Content */}
       <div className="relative max-w-[70%]">
         {/* Message Actions */}
-        <div
-          className={`absolute ${
-            isSender ? "right-full" : "left-full"
-          } bottom-0 mb-1 mx-2 opacity-0 group-hover:opacity-100 transition-opacity`}
-        >
-          <div className="flex items-center gap-1 bg-white rounded-full shadow-lg p-1">
-            <button
-              onClick={() => handleReaction("👍")}
-              className="p-1 hover:bg-gray-100 rounded-full"
-            >
-              👍
-            </button>
-            <button
-              onClick={() => handleReaction("❤️")}
-              className="p-1 hover:bg-gray-100 rounded-full"
-            >
-              ❤️
-            </button>
-            <button
-              onClick={() => setShowActions(!showActions)}
-              className="p-1 hover:bg-gray-100 rounded-full text-gray-500"
-            >
-              •••
-            </button>
-          </div>
-        </div>
 
         {/* Message Bubble */}
         <div
@@ -84,25 +53,6 @@ export default function MessageBubble({ message, isSender }) {
           <p className="text-sm whitespace-pre-wrap break-words">
             {message.text}
           </p>
-
-          {/* Message Media (if any) */}
-          {message.media && (
-            <div className="mt-2">
-              {message.media.type === "image" ? (
-                <img
-                  src={message.media.url}
-                  alt="Attached media"
-                  className="rounded-lg max-w-full"
-                />
-              ) : message.media.type === "video" ? (
-                <video
-                  src={message.media.url}
-                  controls
-                  className="rounded-lg max-w-full"
-                />
-              ) : null}
-            </div>
-          )}
 
           {/* Timestamp */}
           <p
@@ -124,24 +74,6 @@ export default function MessageBubble({ message, isSender }) {
             </span>
           )}
         </div>
-
-        {/* Reactions */}
-        {message.reactions && message.reactions.length > 0 && (
-          <div
-            className={`flex gap-1 mt-1 ${
-              isSender ? "justify-end" : "justify-start"
-            }`}
-          >
-            {message.reactions.map((reaction, index) => (
-              <span
-                key={index}
-                className="bg-white rounded-full shadow-sm px-2 py-1 text-xs"
-              >
-                {reaction.emoji} {reaction.count}
-              </span>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
