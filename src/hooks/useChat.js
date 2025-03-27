@@ -1,4 +1,4 @@
-import { gql, useMutation, useSubscription } from '@apollo/client';
+import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
 import { useEffect, useCallback, useState } from 'react';
 import { isWsConnected } from '../apollo-client';
 
@@ -27,6 +27,20 @@ const NEW_MESSAGE_SUBSCRIPTION = gql`
   }
 `;
 
+const RETRIEVE_MESSAGES = gql`
+  query RetrieveMessages($sender_id: Int!, $receiver_id: Int!) {
+    retrieveMessages(sender_id: $sender_id, receiver_id: $receiver_id) {
+      id
+      content
+      sender_id
+      receiver_id
+      createdAt
+    }
+  }
+`;
+
+
+
 export const useChat = (user) => {
 
   const userId = Number(user.id)
@@ -53,11 +67,11 @@ export const useChat = (user) => {
       }
     }
   );
+  
 
   // Handle new messages
   useEffect(() => {
     if (newMessageData?.newMessage) {
-      console.log("useEffect new message data", newMessageData)
       setMessages(prev => [...prev, newMessageData.newMessage]);
     }
   }, [newMessageData, setMessages]);
@@ -78,7 +92,6 @@ export const useChat = (user) => {
       });
       
       if (data?.sendMessage) {
-        console.log("this is the user message", data?.sendMessage)
         setMessages(prev => [...prev, data.sendMessage]);  // <--- Message added manually
         return data.sendMessage;
       }
@@ -116,3 +129,12 @@ export const useChat = (user) => {
     clearError: () => setError(null)
   };
 }; 
+
+export const useMessages = (senderId, receiverId) => {
+  const { data, loading, error } = useQuery(RETRIEVE_MESSAGES, {
+    variables: { sender_id: senderId, receiver_id: receiverId },
+    fetchPolicy: "network-only", // Ensures fresh data is fetched
+  });
+
+  return { messages: data?.retrieveMessages || [], loading, error };
+};

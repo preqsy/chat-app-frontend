@@ -1,4 +1,4 @@
-import ImageLogo from "../assets/react.svg";
+import ImageLogo from "../assets/logo.svg";
 import GoogleImg from "../assets/google.svg";
 import ImageComponent from "../components/ImageComponent";
 import Button from "../components/Button";
@@ -69,14 +69,18 @@ export default function Register() {
       <ImageComponent />
       <div className="flex flex-col items-center w-full max-w-4xl mx-auto px-8">
         <div className="flex items-center justify-center gap-2 mt-10">
-          <img src={ImageLogo} alt="BlahBlahLand Logo" />
-          <span className="text-xl font-bold">BlahBlahLand</span>
+          <img
+            src={ImageLogo}
+            alt="Whisper Link Logo"
+            className="w-20 bg-transparent h-20"
+          />
+          <span className="font-bold font-satoshi text-3xl">Whispher Link</span>
         </div>
 
         <div className="flex flex-col gap-2 mt-10 text-center">
           <h1 className="text-4xl font-light">Create Account</h1>
           <p className="text-gray-300 max-w-lg">
-            Join BlahBlahLand to start chatting
+            Join Whisper Link to start chatting
           </p>
         </div>
 
