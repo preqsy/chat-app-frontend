@@ -57,7 +57,6 @@ export const useChat = (user) => {
   // Handle new messages
   useEffect(() => {
     if (newMessageData?.newMessage) {
-      console.log("useEffect new message data", newMessageData)
       setMessages(prev => [...prev, newMessageData.newMessage]);
     }
   }, [newMessageData, setMessages]);
@@ -78,7 +77,6 @@ export const useChat = (user) => {
       });
       
       if (data?.sendMessage) {
-        console.log("this is the user message", data?.sendMessage)
         setMessages(prev => [...prev, data.sendMessage]);  // <--- Message added manually
         return data.sendMessage;
       }

@@ -2,7 +2,6 @@ import { useState } from "react";
 import Vector from "../assets/Vector.svg";
 
 export default function MessageBubble({ message, isSender }) {
-  // console.log("isSenderId", isSender);
   const [showActions, setShowActions] = useState(false);
 
   const formatTime = (timeString) => {
