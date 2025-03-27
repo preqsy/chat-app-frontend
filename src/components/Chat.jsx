@@ -11,6 +11,12 @@ export default function Chat({ sender, receiver }) {
   const [notification, setNotification] = useState(null);
   const { messages, sendMessage, loading, error } = useChat(sender);
 
+  const filteredMessages = messages.filter(
+    (msg) =>
+      (msg.sender_id === sender.id && msg.receiver_id === receiver.id) ||
+      (msg.sender_id === receiver.id && msg.receiver_id === sender.id)
+  );
+
   useEffect(() => {
     if (error) {
       setNotification({
@@ -45,7 +51,7 @@ export default function Chat({ sender, receiver }) {
       />
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
+        {filteredMessages.map((message) => (
           <MessageBubble
             key={message.id}
             message={{

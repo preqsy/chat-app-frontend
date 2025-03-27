@@ -61,6 +61,8 @@ export const useChat = (user) => {
       setMessages(prev => [...prev, newMessageData.newMessage]);
     }
   }, [newMessageData, setMessages]);
+  
+
 
   // Send message handler with retry logic
   const handleSendMessage = useCallback(async (receiver, content) => {
