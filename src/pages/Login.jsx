@@ -1,4 +1,4 @@
-import ImageLogo from "../assets/react.svg";
+import ImageLogo from "../assets/logo.svg";
 import GoogleImg from "../assets/google.svg";
 import ImageComponent from "../components/ImageComponent";
 import Button from "../components/Button";
@@ -61,8 +61,12 @@ export default function Login() {
       <ImageComponent />
       <div className="flex flex-col items-center w-full max-w-4xl mx-auto px-8">
         <div className="flex items-center justify-center gap-2 mt-10">
-          <img src={ImageLogo} alt="BlahBlahLand Logo" />
-          <span className="font-satoshi text-xl">BlahBlahLand</span>
+          <img
+            src={ImageLogo}
+            alt="Whisper Link Logo"
+            className="w-20 bg-transparent h-20"
+          />
+          <span className="font-satoshi text-3xl font-bold">Whisper Link</span>
         </div>
 
         <div className="flex flex-col gap-2 mt-10 items-center">

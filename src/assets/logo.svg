@@ -1,0 +1,22 @@
+<svg width="250" height="250" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
+  <!-- Circular Chat Bubble -->
+  <circle cx="125" cy="125" r="100" fill="indigo"/>
+  
+  <!-- Dots representing conversation arranged in a circular pattern -->
+  <circle cx="125" cy="85" r="8" fill="white"/>
+  <circle cx="155" cy="95" r="8" fill="white"/>
+  <circle cx="175" cy="125" r="8" fill="white"/>
+  <circle cx="155" cy="155" r="8" fill="white"/>
+  <circle cx="125" cy="165" r="8" fill="white"/>
+  <circle cx="95" cy="155" r="8" fill="white"/>
+  <circle cx="75" cy="125" r="8" fill="white"/>
+  <circle cx="95" cy="95" r="8" fill="white"/>
+
+  <!-- Text on curved path -->
+  <path id="textPath" d="M50,125a75,75 0 1,1 150,0a75,75 0 1,1 -150,0" fill="transparent"/>
+  <text font-family="Arial, sans-serif" font-size="22" fill="white" font-weight="bold">
+    <textPath href="#textPath" startOffset="50%" text-anchor="middle">
+      Whisper Link
+    </textPath>
+  </text>
+</svg>
