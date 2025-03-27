@@ -4,7 +4,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 
 const isAuthenticated = () => {
-  return !!localStorage.getItem("token"); 
+  return !!localStorage.getItem("token");
 };
 
 const PrivateRoute = ({ element }) => {

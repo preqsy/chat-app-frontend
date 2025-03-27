@@ -6,7 +6,6 @@ export default function ChatInput({ onSend, onTyping }) {
   const [attachments, setAttachments] = useState([]);
   const fileInputRef = useRef(null);
   const textareaRef = useRef(null);
-  console.log("This is the message", message);
 
   // Auto-resize textarea
   const adjustTextareaHeight = (textarea) => {
@@ -62,7 +61,7 @@ export default function ChatInput({ onSend, onTyping }) {
   };
 
   return (
-    <div className="border-t border-gray-200 bg-white p-4">
+    <div className="border-t border-gray-200 bg-black p-4">
       {/* Attachments Preview */}
       {attachments.length > 0 && (
         <div className="flex gap-2 mb-2 overflow-x-auto pb-2">
@@ -116,13 +115,13 @@ export default function ChatInput({ onSend, onTyping }) {
 
       {/* Input Form */}
       <form onSubmit={handleSubmit} className="flex items-end gap-2">
-        <div className="flex-1 flex items-end gap-2 min-h-[48px] bg-gray-100 rounded-2xl px-4 py-2">
+        <div className="flex-1 flex items-end gap-2 min-h-[48px] bg-gray-700 rounded-2xl px-4 py-2">
           <div className="flex gap-2">
             {/* Emoji Button */}
             <button
               type="button"
               onClick={() => setIsEmojiPickerOpen(!isEmojiPickerOpen)}
-              className="p-2 hover:bg-gray-200 rounded-full text-gray-500 transition-colors self-end"
+              className="p-2 hover:bg-gray-200 rounded-full text-gray-500 transition-colors self-end cursor-pointer"
             >
               <svg
                 className="w-6 h-6"
@@ -143,7 +142,7 @@ export default function ChatInput({ onSend, onTyping }) {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="p-2 hover:bg-gray-200 rounded-full text-gray-500 transition-colors self-end"
+              className="p-2 rounded-full text-gray-500 transition-colors self-end cursor-pointer hover:bg-indigo-200"
             >
               <svg
                 className="w-6 h-6"
@@ -182,7 +181,7 @@ export default function ChatInput({ onSend, onTyping }) {
             }}
             onKeyDown={handleKeyPress}
             placeholder="Type your message..."
-            className="flex-1 bg-transparent border-none focus:ring-0 resize-none min-h-[24px] max-h-[120px] py-1 px-2"
+            className="flex-1 border-none focus:ring-0 focus:outline-none resize-none min-h-[24px] max-h-[120px] py-1 px-2"
             rows={1}
           />
         </div>
@@ -190,7 +189,7 @@ export default function ChatInput({ onSend, onTyping }) {
         {/* Send Button */}
         <button
           type="submit"
-          className={`p-3 rounded-full transition-colors flex-shrink-0 ${
+          className={`p-3 rounded-full transition-colors flex-shrink-0 bg-indigo-600 cursor-pointer ${
             message.trim() || attachments.length > 0
               ? "bg-indigo-600 hover:bg-indigo-700 text-white"
               : "bg-gray-100 text-gray-400"

@@ -26,6 +26,27 @@ const LIST_NEW_FRIENDS = gql`
     }
   }
 `;
+const LIST_FRIEND_REQUESTS = gql`
+  query ListFriendRequests($filters: Filters) {
+    listFriendRequests(filters: $filters) {
+      firstName
+      lastName
+      id
+      email
+    }
+  }
+`;
+const LIST_FRIENDS = gql`
+  query ListFriends($filters: Filters) {
+    listFriends(filters: $filters) {
+      firstName
+      lastName
+      id
+      email
+      username
+    }
+  }
+`;
 
 const ADD_NEW_FRIEND = gql`
   mutation SendFriendRequest($receiver_id: Int!) {
@@ -38,7 +59,14 @@ const ADD_NEW_FRIEND = gql`
     }
   }
 `
-
+const ACCEPT_FRIEND_REQUEST = gql `
+mutation AcceptFriendRequest($sender_id: Int!){
+  acceptFriendRequest(sender_id:$sender_id){
+    id
+    firstName
+  }
+}
+`
 
 export const useGetCurrentUser = () => {
   const navigate = useNavigate();
@@ -100,9 +128,44 @@ export const useListNewFriends = () => {
     refetch, // Allow refetching
   };
 };
+export const useListFriendRequests = () => {
+  const { data, loading, error, refetch } = useQuery(LIST_FRIEND_REQUESTS, {
+    variables: { filters: { skip: 0, limit: 10 } }, // Pass filter variables correctly
+    onError: (error) => {
+      console.error("Getting users error:", error.message);
+    },
+  });
+
+  return {
+    listFriendRequests: data?.listFriendRequests || [],
+    loading,
+    error,
+    refetch, // Allow refetching
+  };
+};
+export const useListFriends = () => {
+  const { data, loading, error, refetch } = useQuery(LIST_FRIENDS, {
+    variables: { filters: { skip: 0, limit: 10 } }, // Pass filter variables correctly
+    onError: (error) => {
+      console.error("Getting users error:", error.message);
+    },
+  });
+
+  return {
+    listFriends: data?.listFriends || [],
+    loading,
+    error,
+    refetch, // Allow refetching
+  };
+};
 
 
 export const useAddNewFriend = () => {
   const [sendFriendRequest, {data, loading, error}] = useMutation(ADD_NEW_FRIEND)
   return {sendFriendRequest, data, loading, error}
+}
+
+export const useAcceptFriendRequest = () => {
+  const [acceptFriendRequest, {data, loading, error}] = useMutation(ACCEPT_FRIEND_REQUEST)
+  return {acceptFriendRequest, data, loading, error}
 }

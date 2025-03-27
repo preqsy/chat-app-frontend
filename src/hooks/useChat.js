@@ -15,6 +15,7 @@ const SEND_MESSAGE = gql`
 `;
 
 const NEW_MESSAGE_SUBSCRIPTION = gql`
+
   subscription OnNewMessage($receiverId: Int!) {
     newMessage(receiver_id: $receiverId) {
       id
@@ -26,7 +27,9 @@ const NEW_MESSAGE_SUBSCRIPTION = gql`
   }
 `;
 
-export const useChat = (userId) => {
+export const useChat = (user) => {
+
+  const userId = Number(user.id)
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState(null);
 
@@ -42,7 +45,7 @@ export const useChat = (userId) => {
   const { data: newMessageData, loading: subscriptionLoading } = useSubscription(
     NEW_MESSAGE_SUBSCRIPTION,
     {
-      variables: { receiverId: Number(userId) },
+      variables: { receiverId: userId },
       skip: !userId,
       onError: (error) => {
         console.error('Subscription error:', error);
@@ -54,27 +57,36 @@ export const useChat = (userId) => {
   // Handle new messages
   useEffect(() => {
     if (newMessageData?.newMessage) {
+      console.log("useEffect new message data", newMessageData)
       setMessages(prev => [...prev, newMessageData.newMessage]);
     }
   }, [newMessageData, setMessages]);
+  
+
 
   // Send message handler with retry logic
-  const handleSendMessage = useCallback(async (receiverId, content) => {
+  const handleSendMessage = useCallback(async (receiver, content) => {
     try {
       const { data } = await sendMessageMutation({
         variables: {
           input: {
             content: content.trim(),
-            receiver_id: Number(receiverId),
+            receiver_id: Number(receiver.id),
             sender_id: Number(userId)
           }
         }
       });
-
+      
       if (data?.sendMessage) {
-        setMessages(prev => [...prev, data.sendMessage]);
+        console.log("this is the user message", data?.sendMessage)
+        setMessages(prev => [...prev, data.sendMessage]);  // <--- Message added manually
         return data.sendMessage;
       }
+
+  //  if (data?.sendMessage) {
+  //       return data.sendMessage; // Do not add manually
+  //    }
+
     } catch (error) {
       console.error('Failed to send message:', error);
       setError('Failed to send message');

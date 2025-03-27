@@ -1,10 +1,12 @@
-import { useGetCurrentUser, useListNewFriends } from "../hooks/useDashboard";
+import { useGetCurrentUser } from "../hooks/useDashboard";
 import { Navigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import Chat from "../components/Chat";
 import SearchBox from "../components/Search";
-import GroupPeople from "../components/GroupPeople";
-import FriendList from "../components/FriendList";
+import Friends from "../components/Friends";
+import RecentChats from "../components/RecentChats";
+import FriendList from "../components/AddFriends";
+import FriendRequest from "../components/FriendRequest";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Toast from "../components/Toast";
 import { useState } from "react";
@@ -13,19 +15,12 @@ import Ellipis_1 from "../assets/Ellipse_1.svg";
 export default function Dashboard() {
   const { currentUser, loading: userLoading, error } = useGetCurrentUser();
 
-  const {
-    listUsers,
-    loading: friendLoading,
-    error: friendError,
-  } = useListNewFriends();
-
-  console.log("listUsers", listUsers);
-  console.log("listUsers type", typeof listUsers);
   const [activeTab, setActiveTab] = useState("chats"); // 'chats', 'friends', 'groups'
   const [searchQuery, setSearchQuery] = useState("");
   const [notification, setNotification] = useState(null);
+  const [selectedFriend, setSelectedFriend] = useState(null);
 
-  if (userLoading || friendLoading) {
+  if (userLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <LoadingSpinner size="lg" />
@@ -49,6 +44,7 @@ export default function Dashboard() {
 
   const peopleData = [
     {
+      id: 1,
       name: "Obinna",
       messagePreview: "Hahaha",
       messageTime: "Today, 9:52pm",
@@ -56,6 +52,7 @@ export default function Dashboard() {
       picture: Ellipis_1,
     },
     {
+      id: 2,
       name: "Crazy bro",
       messagePreview: "How far you play that game??",
       messageTime: "Today, 9:52pm",
@@ -63,6 +60,7 @@ export default function Dashboard() {
       picture: Ellipis_1,
     },
     {
+      id: 3,
       name: "Young Wolf",
       messagePreview: "He's Cheating on me 😭",
       messageTime: "Today, 9:52pm",
@@ -70,6 +68,7 @@ export default function Dashboard() {
       picture: Ellipis_1,
     },
     {
+      id: 4,
       name: "Prehqsy",
       messagePreview: "How far you play that game??",
       messageTime: "Today, 9:52pm",
@@ -77,6 +76,7 @@ export default function Dashboard() {
       picture: Ellipis_1,
     },
     {
+      id: 5,
       name: "Mountain",
       messagePreview: "He's Cheating on me 😭",
       messageTime: "Today, 9:52pm",
@@ -85,14 +85,12 @@ export default function Dashboard() {
     },
   ];
 
-  const newFriendsData = listUsers || [];
-
   const filteredPeople = peopleData.filter((person) =>
     person.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <main className="flex h-screen bg-gray-100">
+    <main className="flex h-screen bg-black">
       <SideBar />
       <div className="flex-1 flex flex-col p-6 h-screen">
         <div className="flex gap-6 h-full">
@@ -105,52 +103,48 @@ export default function Dashboard() {
 
             {/* Tabs */}
             <div className="flex gap-2 mb-6 cursor-pointer">
-              {["chats", "friends", "new friends"].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-2 rounded-lg capitalize transition-colors ${
-                    activeTab === tab
-                      ? "bg-indigo-600 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
+              {["chats", "friends", "new friends", "friend requests"].map(
+                (tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-2 py-2 rounded-lg capitalize transition-colors cursor-pointer ${
+                      activeTab === tab
+                        ? "bg-indigo-600 text-white"
+                        : "bg-gray-100 text-gray-600 hover:bg-indigo-400"
+                    }`}
+                  >
+                    {tab}
+                  </button>
+                )
+              )}
             </div>
 
             {/* Content based on active tab */}
             <div className="space-y-4 overflow-y-auto flex-1">
-              {activeTab === "new friends" &&
-                newFriendsData.map((newFriend) => (
-                  <FriendList key={newFriend.firstName} {...newFriend} />
-                ))}
+              {activeTab === "new friends" && <FriendList />}
+              {activeTab === "friend requests" && <FriendRequest />}
 
               {activeTab === "friends" && (
                 <div className="space-y-2">
-                  <h2 className="font-semibold text-gray-900">Friends</h2>
-                  {filteredPeople.map((person) => (
-                    <GroupPeople
-                      key={person.name}
-                      {...person}
-                      className="hover:bg-gray-50 transition-colors rounded-xl p-2"
-                    />
-                  ))}
+                  <h2 className="font-semibold">Friends</h2>
+                  <Friends setSelectedFriend={setSelectedFriend} />
                 </div>
               )}
 
               {activeTab === "chats" && (
                 <>
                   <div className="space-y-2">
-                    <h2 className="font-semibold text-gray-900">
-                      Recent Chats
-                    </h2>
+                    <h2 className="font-semibold text-white">Recent Chats</h2>
                     {filteredPeople.slice(0, 3).map((person) => (
-                      <GroupPeople
+                      <RecentChats
                         key={person.name}
                         {...person}
                         className="hover:bg-gray-50 transition-colors rounded-xl p-2"
+                        onClick={() => {
+                          console.log("Clicked person:", person);
+                          setSelectedFriend(person);
+                        }}
                       />
                     ))}
                   </div>
@@ -160,12 +154,11 @@ export default function Dashboard() {
           </div>
 
           {/* Chat Section */}
-          <div className="flex-1 bg-white rounded-2xl shadow-sm overflow-hidden">
-            <Chat
-              username={currentUser.username}
-              currentUserId={currentUser.id}
-            />
-          </div>
+          {selectedFriend && (
+            <div className="flex-1 bg-white rounded-2xl shadow-sm overflow-hidden">
+              <Chat sender={currentUser} receiver={selectedFriend} />
+            </div>
+          )}
         </div>
       </div>
 
