@@ -93,7 +93,7 @@ export default function Dashboard() {
                       // key={person.name}
                       // {...person}
                       className="hover:bg-gray-50 transition-colors rounded-xl p-2"
-                      onClick={setSelectedFriend}
+                      setSelectedFriend={setSelectedFriend}
                       sender={currentUser}
                     />
                   </div>

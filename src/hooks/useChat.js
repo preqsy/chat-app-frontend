@@ -28,12 +28,14 @@ const NEW_MESSAGE_SUBSCRIPTION = gql`
         id
         firstName
         lastName
+        username
         
       }
       receiver {
         id
         firstName
         lastName
+        username
         
       }
     }

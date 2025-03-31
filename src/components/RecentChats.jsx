@@ -2,15 +2,19 @@ import { useChat } from "../hooks/useChat";
 import Ellipis_1 from "../assets/Ellipse_1.svg";
 import { formatTimestamp } from "../utils";
 
-export default function RecentChats({ onClick, className = "", sender }) {
-  const { messages: newMessages } = useChat(sender);
+export default function RecentChats({
+  setSelectedFriend,
+  className = "",
+  sender,
+}) {
+  const { messages: newMessages, loading, error } = useChat(sender);
   const messageAction = 1;
   return (
     <div>
       {newMessages.map((newMessage) => (
         <div
           className={`flex items-center gap-3 cursor-pointer ${className} group`}
-          onClick={() => onClick(newMessage.sender_id)}
+          onClick={() => setSelectedFriend(newMessage.sender)}
           key={newMessage.id}
         >
           <div className="relative">
