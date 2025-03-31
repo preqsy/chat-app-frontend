@@ -2,6 +2,7 @@ import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
 import { useEffect, useCallback, useState } from 'react';
 import { isWsConnected } from '../apollo-client';
 
+
 const SEND_MESSAGE = gql`
   mutation SendMessage($input: MessageInput!) {
     sendMessage(input: $input) {
@@ -23,6 +24,18 @@ const NEW_MESSAGE_SUBSCRIPTION = gql`
       sender_id
       receiver_id
       createdAt
+      sender {
+        id
+        firstName
+        lastName
+        
+      }
+      receiver {
+        id
+        firstName
+        lastName
+        
+      }
     }
   }
 `;
@@ -64,7 +77,7 @@ export const useChat = (user) => {
       onError: (error) => {
         console.error('Subscription error:', error);
         setError('Lost connection to chat service');
-      }
+      },
     }
   );
   
@@ -96,9 +109,6 @@ export const useChat = (user) => {
         return data.sendMessage;
       }
 
-  //  if (data?.sendMessage) {
-  //       return data.sendMessage; // Do not add manually
-  //    }
 
     } catch (error) {
       console.error('Failed to send message:', error);
