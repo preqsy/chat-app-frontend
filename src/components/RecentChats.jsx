@@ -1,4 +1,5 @@
-import { useChat } from "../hooks/useChat";
+import { useChat, useRecentChats } from "../hooks/useChat";
+import LoadingSpinner from "../components/LoadingSpinner";
 import Ellipis_1 from "../assets/Ellipse_1.svg";
 import { formatTimestamp } from "../utils";
 
@@ -8,10 +9,25 @@ export default function RecentChats({
   sender,
 }) {
   const { messages: newMessages, loading, error } = useChat(sender);
+  const {
+    messages: oldChats,
+    loading: oldChatLoading,
+    error: oldChatError,
+  } = useRecentChats(sender.id);
+
+  console.log("Old chats", oldChats);
+
+  if (oldChatLoading)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
+
   const messageAction = 1;
   return (
     <div>
-      {newMessages.map((newMessage) => (
+      {oldChats.map((newMessage) => (
         <div
           className={`flex items-center gap-3 cursor-pointer ${className} group`}
           onClick={() => setSelectedFriend(newMessage.sender)}

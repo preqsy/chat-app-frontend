@@ -54,6 +54,31 @@ const RETRIEVE_MESSAGES = gql`
   }
 `;
 
+const RECENT_CHATS = gql`
+  query RecentChats($sender_id: Int) {
+    getRecentChats(sender_id: $sender_id) {
+      id
+      content
+      sender_id
+      receiver_id
+      createdAt
+      sender {
+        id
+        username
+        firstName
+        lastName
+      }
+      receiver {
+        id
+        username
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+
 
 
 export const useChat = (user) => {
@@ -149,4 +174,13 @@ export const useMessages = (senderId, receiverId) => {
   });
 
   return { messages: data?.retrieveMessages || [], loading, error };
+};
+
+export const useRecentChats = (senderId) => {
+  const { data, loading, error } = useQuery(RECENT_CHATS, {
+    variables: { sender_id: senderId },
+    fetchPolicy: "network-only", // Ensures fresh data is fetched
+  });
+
+  return { messages: data?.getRecentChats || [], loading, error };
 };
