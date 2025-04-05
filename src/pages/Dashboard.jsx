@@ -42,53 +42,6 @@ export default function Dashboard() {
 
   localStorage.setItem("user", JSON.stringify(currentUser));
 
-  const peopleData = [
-    {
-      id: 1,
-      name: "Obinna",
-      messagePreview: "Hahaha",
-      messageTime: "Today, 9:52pm",
-      messageAction: 4,
-      picture: Ellipis_1,
-    },
-    {
-      id: 2,
-      name: "Crazy bro",
-      messagePreview: "How far you play that game??",
-      messageTime: "Today, 9:52pm",
-      messageAction: 8,
-      picture: Ellipis_1,
-    },
-    {
-      id: 3,
-      name: "Young Wolf",
-      messagePreview: "He's Cheating on me 😭",
-      messageTime: "Today, 9:52pm",
-      messageAction: 1,
-      picture: Ellipis_1,
-    },
-    {
-      id: 4,
-      name: "Prehqsy",
-      messagePreview: "How far you play that game??",
-      messageTime: "Today, 9:52pm",
-      messageAction: 8,
-      picture: Ellipis_1,
-    },
-    {
-      id: 5,
-      name: "Mountain",
-      messagePreview: "He's Cheating on me 😭",
-      messageTime: "Today, 9:52pm",
-      messageAction: 1,
-      picture: Ellipis_1,
-    },
-  ];
-
-  const filteredPeople = peopleData.filter((person) =>
-    person.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   return (
     <main className="flex h-screen bg-black">
       <SideBar />
@@ -136,17 +89,13 @@ export default function Dashboard() {
                 <>
                   <div className="space-y-2">
                     <h2 className="font-semibold text-white">Recent Chats</h2>
-                    {filteredPeople.slice(0, 3).map((person) => (
-                      <RecentChats
-                        key={person.name}
-                        {...person}
-                        className="hover:bg-gray-50 transition-colors rounded-xl p-2"
-                        onClick={() => {
-                          console.log("Clicked person:", person);
-                          setSelectedFriend(person);
-                        }}
-                      />
-                    ))}
+                    <RecentChats
+                      // key={person.name}
+                      // {...person}
+                      className="hover:bg-gray-50 transition-colors rounded-xl p-2"
+                      setSelectedFriend={setSelectedFriend}
+                      sender={currentUser}
+                    />
                   </div>
                 </>
               )}
