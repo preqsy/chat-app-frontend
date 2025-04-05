@@ -63,7 +63,11 @@ export default function RecentChats({
       {combinedChats.map((message) => (
         <div
           className={`flex items-center gap-3 cursor-pointer ${className} group`}
-          onClick={() => setSelectedFriend(message.sender)}
+          onClick={() =>
+            message.sender.id !== sender.id
+              ? setSelectedFriend(message.sender)
+              : setSelectedFriend(message.receiver)
+          }
           key={message.id}
         >
           <div className="relative">
