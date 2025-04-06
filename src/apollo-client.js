@@ -4,13 +4,17 @@ import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { setContext } from '@apollo/client/link/context';
 
+
+const baseURL = import.meta.env.VITE_BASE_URL;
+
+console.log("BaseURL", baseURL)
 const httpLink = new HttpLink({
-  uri: 'http://localhost:8080/query',
+  uri: baseURL,
   credentials: 'include'
 });
 
 const wsClient = createClient({
-  url: 'ws://localhost:8080/query',
+  url: baseURL.replace(/^http/, 'ws'),
   connectionParams: () => {
     const token = localStorage.getItem('token');
     return {
