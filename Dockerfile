@@ -1,32 +1,22 @@
 # Stage 1: Build the app
 FROM node:20-alpine AS build
-
-# Set working directory
 WORKDIR /app
-
-# Copy dependencies manifest
 COPY package*.json ./
-
-# Install dependencies
 RUN npm ci
-
-# Copy the rest of the app
 COPY . .
-
-# Build the app (outputs to /app/dist)
 RUN npm run build
 
-# Stage 2: Use Nginx to serve the app (optional, only if you need custom config)
+# Stage 2: Serve with Nginx and custom config
 FROM nginx:stable-alpine
 
-# Remove default Nginx content
+# Remove default content
 RUN rm -rf /usr/share/nginx/html/*
 
-# Copy build output to Nginx’s html directory
+# Copy build output
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Expose the port (Render will handle serving static content on port 80)
-EXPOSE 80
+# Copy your custom Nginx config to override the default
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Start Nginx (although Render can handle this automatically)
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
