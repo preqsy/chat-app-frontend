@@ -32,7 +32,7 @@ export default function SideBar() {
       label: "Home",
     },
     {
-      path: "/messages",
+      path: "#",
       icon: (
         <svg
           className="w-6 h-6"
@@ -51,7 +51,7 @@ export default function SideBar() {
       label: "Messages",
     },
     {
-      path: "/notifications",
+      path: "/#",
       icon: (
         <svg
           className="w-6 h-6"
