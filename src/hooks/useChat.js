@@ -152,7 +152,8 @@ export const useChat = (user) => {
   // Add connection status check
   useEffect(() => {
     if (!isWsConnected()) {
-      setError('Chat connection lost. Reconnecting...');
+      setError('');
+      console.log("Connecting...")
     } else {
       setError(null);
     }

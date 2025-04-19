@@ -1,3 +1,5 @@
+import Ellipis_1 from "../assets/Ellipse_1.svg";
+
 export default function ChatHeader({
   user,
   onVideoCall,
@@ -10,7 +12,7 @@ export default function ChatHeader({
       <div className="flex items-center gap-3">
         <div className="relative">
           <img
-            src={user.avatar}
+            src={Ellipis_1}
             // alt={user.username}
             className="w-10 h-10 rounded-full object-cover"
           />

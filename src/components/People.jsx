@@ -24,7 +24,10 @@ export default function PeopleList({
               >
                 {buttonName}
               </button>
-              <button className="p-2 bg-white text-indigo-600 rounded w-30 cursor-pointer">
+              <button
+                className="p-2 bg-white text-indigo-600 rounded w-30 cursor-pointer"
+                disabled
+              >
                 View Profile
               </button>
             </div>
