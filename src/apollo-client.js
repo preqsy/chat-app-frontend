@@ -5,9 +5,8 @@ import { createClient } from 'graphql-ws';
 import { setContext } from '@apollo/client/link/context';
 
 
-const baseURL = import.meta.env.VITE_BASE_URL;
+const baseURL = "https://chat-app-server-production-a175.up.railway.app/query"
 
-console.log("BaseURL", baseURL)
 const httpLink = new HttpLink({
   uri: baseURL,
   credentials: 'include'
