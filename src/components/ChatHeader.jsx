@@ -6,26 +6,26 @@ export default function ChatHeader({
   onVoiceCall,
   onMoreOptions,
 }) {
-  // console.log("This is the chatheader user", user);
   return (
-    <div className="flex items-center justify-between p-4 border-b border-indigo-600">
-      <div className="flex items-center gap-3">
+    <div className="flex items-center justify-between p-2 md:p-4 border-b border-indigo-600">
+      <div className="flex items-center gap-2 md:gap-3">
         <div className="relative">
           <img
             src={Ellipis_1}
-            // alt={user.username}
-            className="w-10 h-10 rounded-full object-cover"
+            className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover"
           />
           <span
-            className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
+            className={`absolute bottom-0 right-0 w-2 h-2 md:w-3 md:h-3 rounded-full border-2 border-white ${
               user.status === "online" ? "bg-green-500" : "bg-gray-400"
             }`}
           ></span>
         </div>
 
         <div>
-          <p className="font-medium text-white">{user.name}</p>
-          <p className="text-sm text-gray-500">
+          <p className="font-medium text-white text-sm md:text-base">
+            {user.name}
+          </p>
+          <p className="text-xs md:text-sm text-gray-500">
             {user.status === "online" ? (
               <span className="text-green-500">Online</span>
             ) : user.lastSeen ? (
@@ -37,14 +37,14 @@ export default function ChatHeader({
         </div>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 md:gap-2">
         <button
           onClick={onVoiceCall}
-          className="p-2 hover:bg-indigo-400 rounded-full text-gray-500 transition-colors bg-white cursor-pointer"
+          className="p-1 md:p-2 hover:bg-indigo-400 rounded-full text-gray-500 transition-colors bg-white cursor-pointer"
           title="Voice Call"
         >
           <svg
-            className="w-5 h-5"
+            className="w-4 h-4 md:w-5 md:h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -60,11 +60,11 @@ export default function ChatHeader({
 
         <button
           onClick={onVideoCall}
-          className="p-2 hover:bg-indigo-400 rounded-full text-gray-500 transition-colors bg-white cursor-pointer"
+          className="p-1 md:p-2 hover:bg-indigo-400 rounded-full text-gray-500 transition-colors bg-white cursor-pointer"
           title="Video Call"
         >
           <svg
-            className="w-5 h-5"
+            className="w-4 h-4 md:w-5 md:h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -80,11 +80,11 @@ export default function ChatHeader({
 
         <button
           onClick={onMoreOptions}
-          className="p-2 hover:bg-indigo-400 rounded-full text-gray-500 transition-colors bg-white cursor-pointer"
+          className="p-1 md:p-2 hover:bg-indigo-400 rounded-full text-gray-500 transition-colors bg-white cursor-pointer"
           title="More Options"
         >
           <svg
-            className="w-5 h-5"
+            className="w-4 h-4 md:w-5 md:h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

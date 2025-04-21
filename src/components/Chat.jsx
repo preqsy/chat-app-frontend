@@ -10,9 +10,8 @@ import Vector from "../assets/Vector.svg";
 export default function Chat({ sender, receiver }) {
   const [notification, setNotification] = useState(null);
   const [combinedMessages, setCombinedMessages] = useState([]);
-  const messagesEndRef = useRef(null); // Ref for scrolling to bottom
+  const messagesEndRef = useRef(null);
 
-  // Hook for sending messages and receiving new ones via subscription
   const {
     messages: newMessages,
     sendMessage,
@@ -20,25 +19,19 @@ export default function Chat({ sender, receiver }) {
     error,
   } = useChat(sender);
 
-  // Hook for fetching existing messages
   const {
     messages: oldMessages,
     loading: useMessagesLoading,
     error: useMessagesError,
   } = useMessages(sender.id, receiver.id);
 
-  // Scroll to bottom when messages change
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Combine old and new messages
   useEffect(() => {
     if (oldMessages.length > 0 || newMessages.length > 0) {
-      // Combine all messages and remove duplicates
       const allMessages = [...oldMessages, ...newMessages];
-
-      // Remove duplicates by message id
       const uniqueMessages = allMessages.reduce((acc, current) => {
         const x = acc.find((item) => item.id === current.id);
         if (!x) {
@@ -48,7 +41,6 @@ export default function Chat({ sender, receiver }) {
         }
       }, []);
 
-      // Sort by createdAt (oldest first)
       uniqueMessages.sort(
         (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
       );
@@ -57,12 +49,10 @@ export default function Chat({ sender, receiver }) {
     }
   }, [oldMessages, newMessages]);
 
-  // Scroll to bottom when messages update
   useEffect(() => {
     scrollToBottom();
   }, [combinedMessages]);
 
-  // Filter to only show messages between these two users
   const filteredMessages = combinedMessages.filter(
     (msg) =>
       (msg.sender_id === sender.id && msg.receiver_id === receiver.id) ||
@@ -81,7 +71,6 @@ export default function Chat({ sender, receiver }) {
   const handleSendMessage = async (messageData) => {
     try {
       await sendMessage(receiver, messageData.text);
-      // No need to manually scroll here - the useEffect will handle it
     } catch (error) {
       setNotification({
         type: "error",
@@ -103,23 +92,30 @@ export default function Chat({ sender, receiver }) {
         onMoreOptions={() => console.log("More options")}
       />
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-2 md:p-4 space-y-2 md:space-y-4">
         {useMessagesLoading ? (
-          <div>Loading messages...</div>
+          <div className="flex justify-center items-center h-full">
+            <div>Loading messages...</div>
+          </div>
         ) : (
           <>
-            {filteredMessages.map((message) => (
-              <MessageBubble
-                key={message.id}
-                message={{
-                  id: message.id,
-                  text: message.content,
-                  time: message.createdAt,
-                }}
-                isSender={message.sender_id === sender.id}
-              />
-            ))}
-            {/* Empty div at the bottom for scrolling to */}
+            {filteredMessages.length === 0 ? (
+              <div className="flex justify-center items-center h-full text-gray-500">
+                No messages yet. Start the conversation!
+              </div>
+            ) : (
+              filteredMessages.map((message) => (
+                <MessageBubble
+                  key={message.id}
+                  message={{
+                    id: message.id,
+                    text: message.content,
+                    time: message.createdAt,
+                  }}
+                  isSender={message.sender_id === sender.id}
+                />
+              ))
+            )}
             <div ref={messagesEndRef} />
           </>
         )}

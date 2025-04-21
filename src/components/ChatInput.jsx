@@ -3,10 +3,8 @@ import { useState, useRef } from "react";
 export default function ChatInput({ onSend, onTyping }) {
   const [message, setMessage] = useState("");
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
-  const [attachments, setAttachments] = useState([]);
   const textareaRef = useRef(null);
 
-  // Auto-resize textarea
   const adjustTextareaHeight = (textarea) => {
     textarea.style.height = "inherit";
     const computed = window.getComputedStyle(textarea);
@@ -15,21 +13,19 @@ export default function ChatInput({ onSend, onTyping }) {
       parseInt(computed.getPropertyValue("border-top-width"), 10) +
       parseInt(computed.getPropertyValue("border-bottom-width"), 10);
 
-    textarea.style.height = `${Math.min(height, 120)}px`; // Max height of 120px
+    textarea.style.height = `${Math.min(height, 120)}px`;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!message.trim() && attachments.length === 0) return;
+    if (!message.trim()) return;
 
     onSend({
       text: message,
-      // attachments: attachments,
       timestamp: new Date().toISOString(),
     });
 
     setMessage("");
-    setAttachments([]);
     if (textareaRef.current) {
       textareaRef.current.style.height = "inherit";
     }
@@ -43,19 +39,17 @@ export default function ChatInput({ onSend, onTyping }) {
   };
 
   return (
-    <div className="border-t border-gray-200 bg-black p-4">
-      {/* Input Form */}
-      <form onSubmit={handleSubmit} className="flex items-end gap-2">
-        <div className="flex-1 flex items-end gap-2 min-h-[48px] bg-gray-700 rounded-2xl px-4 py-2">
-          <div className="flex gap-2">
-            {/* Emoji Button */}
+    <div className="border-t border-gray-200 bg-black p-2 md:p-4">
+      <form onSubmit={handleSubmit} className="flex items-end gap-1 md:gap-2">
+        <div className="flex-1 flex items-end gap-1 md:gap-2 min-h-[40px] md:min-h-[48px] bg-gray-700 rounded-xl md:rounded-2xl px-2 md:px-4 py-1 md:py-2">
+          <div className="flex gap-1 md:gap-2">
             <button
               type="button"
               onClick={() => setIsEmojiPickerOpen(!isEmojiPickerOpen)}
-              className="p-2 hover:bg-gray-200 rounded-full text-gray-500 transition-colors self-end cursor-pointer"
+              className="p-1 md:p-2 hover:bg-gray-200 rounded-full text-gray-500 transition-colors self-end cursor-pointer"
             >
               <svg
-                className="w-6 h-6"
+                className="w-5 h-5 md:w-6 md:h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -70,7 +64,6 @@ export default function ChatInput({ onSend, onTyping }) {
             </button>
           </div>
 
-          {/* Text Input */}
           <textarea
             ref={textareaRef}
             value={message}
@@ -81,22 +74,21 @@ export default function ChatInput({ onSend, onTyping }) {
             }}
             onKeyDown={handleKeyPress}
             placeholder="Type your message..."
-            className="flex-1 border-none focus:ring-0 focus:outline-none resize-none min-h-[24px] max-h-[120px] py-1 px-2"
+            className="flex-1 border-none focus:ring-0 focus:outline-none resize-none min-h-[20px] md:min-h-[24px] max-h-[120px] py-1 px-1 md:px-2 text-sm md:text-base"
             rows={1}
           />
         </div>
 
-        {/* Send Button */}
         <button
           type="submit"
-          className={`p-3 rounded-full transition-colors flex-shrink-0 bg-indigo-600 cursor-pointer ${
-            message.trim() || attachments.length > 0
+          className={`p-2 md:p-3 rounded-full transition-colors flex-shrink-0 ${
+            message.trim()
               ? "bg-indigo-600 hover:bg-indigo-700 text-white"
               : "bg-gray-100 text-gray-400"
           }`}
         >
           <svg
-            className="w-6 h-6"
+            className="w-5 h-5 md:w-6 md:h-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
