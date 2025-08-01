@@ -162,7 +162,7 @@ export const useChat = (user) => {
   return {
     messages,
     sendMessage: handleSendMessage,
-    loading: sendingMessage || subscriptionLoading,
+    loading: sendingMessage, // Only show loading when actually sending a message
     error,
     clearError: () => setError(null)
   };

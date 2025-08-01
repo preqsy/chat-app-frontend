@@ -100,6 +100,7 @@ export default function ChatInput({ onSend, onTyping, disabled }) {
             disabled={disabled}
             className="flex-1 border-none bg-transparent text-white lg:text-gray-900 placeholder-gray-400 lg:placeholder-gray-500 focus:ring-0 focus:outline-none resize-none min-h-[24px] lg:min-h-[28px] max-h-[120px] py-1 text-sm lg:text-base leading-relaxed"
             rows={1}
+            autoFocus={false}
           />
         </div>
 
@@ -107,15 +108,15 @@ export default function ChatInput({ onSend, onTyping, disabled }) {
         <button
           type="submit"
           disabled={!message.trim() || disabled}
-          className={`p-3 lg:p-3 rounded-full transition-all duration-200 flex-shrink-0 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900 lg:focus:ring-offset-white ${
+          className={`p-3 lg:p-3 rounded-full transition-all duration-200 flex-shrink-0 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900 lg:focus:ring-offset-white relative ${
             message.trim() && !disabled
               ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
               : "bg-gray-700 lg:bg-gray-200 text-gray-500 cursor-not-allowed"
           }`}
           aria-label="Send message"
         >
-          {disabled ? (
-            <div className="w-5 h-5 lg:w-6 lg:h-6 animate-spin rounded-full border-2 border-gray-400 border-t-transparent"></div>
+          {disabled && message.trim() ? (
+            <div className="w-5 h-5 lg:w-6 lg:h-6 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
           ) : (
             <svg
               className="w-5 h-5 lg:w-6 lg:h-6"

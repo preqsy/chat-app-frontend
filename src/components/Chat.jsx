@@ -15,7 +15,7 @@ export default function Chat({ sender, receiver }) {
   const {
     messages: newMessages,
     sendMessage,
-    loading,
+    loading: sendingMessage,
     error,
   } = useChat(sender);
 
@@ -69,9 +69,12 @@ export default function Chat({ sender, receiver }) {
   }, [error, useMessagesError]);
 
   const handleSendMessage = async (messageData) => {
+    console.log("Sending message:", messageData);
     try {
       await sendMessage(receiver, messageData.text);
+      console.log("Message sent successfully");
     } catch (error) {
+      console.error("Send message error:", error);
       setNotification({
         type: "error",
         message: "Failed to send message",
@@ -149,7 +152,7 @@ export default function Chat({ sender, receiver }) {
 
       {/* Chat Input */}
       <div className="bg-gray-900 lg:bg-white border-t border-gray-700 lg:border-gray-200">
-        <ChatInput onSend={handleSendMessage} disabled={loading} />
+        <ChatInput onSend={handleSendMessage} disabled={sendingMessage} />
       </div>
 
       {notification && (
