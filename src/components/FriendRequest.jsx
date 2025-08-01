@@ -30,15 +30,22 @@ export default function FriendRequest() {
   }, [listFriendRequests]);
 
   const handleAcceptFriendRequest = async (e, id) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
+    console.log("Accepting friend request for ID:", id);
     setAcceptingRequestId(id);
     
     try {
-      await acceptFriendRequest({
+      const result = await acceptFriendRequest({
         variables: {
           sender_id: id,
         },
       });
+
+      console.log("Accept friend request result:", result);
 
       // Remove accepted friend request from state
       setFriendRequests((prevRequests) =>
@@ -46,13 +53,13 @@ export default function FriendRequest() {
       );
       
       setNotification({
-        message: "Friend request accepted!",
+        message: "Friend request accepted successfully!",
         type: "success",
       });
     } catch (error) {
-      console.error("Error accepting friend request", error);
+      console.error("Error accepting friend request:", error);
       setNotification({
-        message: error.message || "Failed to accept friend request",
+        message: error.message || "Failed to accept friend request. Please try again.",
         type: "error",
       });
     } finally {
@@ -90,7 +97,10 @@ export default function FriendRequest() {
           <PeopleList
             firstName={friendRequest.firstName}
             lastName={friendRequest.lastName}
-            onClick={(e) => handleAcceptFriendRequest(e, friendRequest.id)}
+            onClick={(e) => {
+              console.log("Button clicked for:", friendRequest.firstName, friendRequest.lastName);
+              handleAcceptFriendRequest(e, friendRequest.id);
+            }}
             buttonName={acceptingRequestId === friendRequest.id ? "Accepting..." : "Accept"}
             showButton={true}
           />
