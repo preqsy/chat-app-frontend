@@ -8,7 +8,10 @@ export default function PeopleList({
   showButton = true,
 }) {
   return (
-    <div className="p-3 lg:p-4 rounded-xl hover:bg-gray-700 lg:hover:bg-gray-100 transition-all duration-200 group">
+    <div 
+      className="p-3 lg:p-4 rounded-xl hover:bg-gray-700 lg:hover:bg-gray-100 transition-all duration-200 group cursor-pointer"
+      onClick={!showButton ? onClick : undefined}
+    >
       <div className="flex items-center gap-3 lg:gap-4">
         <div className="relative flex-shrink-0">
           <img
@@ -34,13 +37,17 @@ export default function PeopleList({
               <div className="flex flex-col sm:flex-row gap-2 ml-3 flex-shrink-0">
                 <button
                   className="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs lg:text-sm font-medium rounded-lg transition-all duration-200 focus:ring-2 focus:ring-indigo-500 transform hover:scale-105 shadow-lg"
-                  onClick={onClick}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onClick && onClick(e);
+                  }}
                 >
                   {buttonName}
                 </button>
                 <button
                   className="px-3 py-2 bg-gray-700 lg:bg-gray-200 hover:bg-gray-600 lg:hover:bg-gray-300 text-gray-300 lg:text-gray-700 text-xs lg:text-sm font-medium rounded-lg transition-all duration-200 focus:ring-2 focus:ring-gray-500"
                   disabled
+                  onClick={(e) => e.stopPropagation()}
                 >
                   Profile
                 </button>
