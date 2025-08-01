@@ -7,27 +7,28 @@ export default function ChatHeader({
   onMoreOptions,
 }) {
   return (
-    <div className="flex items-center justify-between p-2 md:p-4 border-b border-indigo-600">
-      <div className="flex items-center gap-2 md:gap-3">
-        <div className="relative">
+    <div className="flex items-center justify-between p-4 lg:p-6 border-b border-gray-700 lg:border-gray-200 bg-gray-800 lg:bg-white">
+      <div className="flex items-center gap-3 lg:gap-4 flex-1 min-w-0">
+        <div className="relative flex-shrink-0">
           <img
             src={Ellipis_1}
-            className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover"
+            alt={`${user.name} avatar`}
+            className="w-10 h-10 lg:w-12 lg:h-12 rounded-full object-cover ring-2 ring-gray-600 lg:ring-gray-200"
           />
           <span
-            className={`absolute bottom-0 right-0 w-2 h-2 md:w-3 md:h-3 rounded-full border-2 border-white ${
+            className={`absolute -bottom-1 -right-1 w-3 h-3 lg:w-4 lg:h-4 rounded-full border-2 border-gray-800 lg:border-white ${
               user.status === "online" ? "bg-green-500" : "bg-gray-400"
             }`}
           ></span>
         </div>
 
-        <div>
-          <p className="font-medium text-white text-sm md:text-base">
+        <div className="flex-1 min-w-0">
+          <h3 className="font-semibold text-white lg:text-gray-900 text-base lg:text-lg truncate">
             {user.name}
-          </p>
-          <p className="text-xs md:text-sm text-gray-500">
+          </h3>
+          <p className="text-xs lg:text-sm text-gray-400 lg:text-gray-500 truncate">
             {user.status === "online" ? (
-              <span className="text-green-500">Online</span>
+              <span className="text-green-500 font-medium">● Online</span>
             ) : user.lastSeen ? (
               `Last seen ${user.lastSeen}`
             ) : (
@@ -37,14 +38,16 @@ export default function ChatHeader({
         </div>
       </div>
 
-      <div className="flex items-center gap-1 md:gap-2">
+      {/* Action Buttons */}
+      <div className="flex items-center gap-2 lg:gap-3 flex-shrink-0">
         <button
           onClick={onVoiceCall}
-          className="p-1 md:p-2 hover:bg-indigo-400 rounded-full text-gray-500 transition-colors bg-white cursor-pointer"
+          className="p-2 lg:p-3 hover:bg-gray-700 lg:hover:bg-gray-100 rounded-full text-gray-400 lg:text-gray-600 transition-all duration-200 focus:ring-2 focus:ring-indigo-500"
           title="Voice Call"
+          aria-label="Start voice call"
         >
           <svg
-            className="w-4 h-4 md:w-5 md:h-5"
+            className="w-5 h-5 lg:w-6 lg:h-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -60,11 +63,12 @@ export default function ChatHeader({
 
         <button
           onClick={onVideoCall}
-          className="p-1 md:p-2 hover:bg-indigo-400 rounded-full text-gray-500 transition-colors bg-white cursor-pointer"
+          className="p-2 lg:p-3 hover:bg-gray-700 lg:hover:bg-gray-100 rounded-full text-gray-400 lg:text-gray-600 transition-all duration-200 focus:ring-2 focus:ring-indigo-500"
           title="Video Call"
+          aria-label="Start video call"
         >
           <svg
-            className="w-4 h-4 md:w-5 md:h-5"
+            className="w-5 h-5 lg:w-6 lg:h-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -80,11 +84,12 @@ export default function ChatHeader({
 
         <button
           onClick={onMoreOptions}
-          className="p-1 md:p-2 hover:bg-indigo-400 rounded-full text-gray-500 transition-colors bg-white cursor-pointer"
+          className="p-2 lg:p-3 hover:bg-gray-700 lg:hover:bg-gray-100 rounded-full text-gray-400 lg:text-gray-600 transition-all duration-200 focus:ring-2 focus:ring-indigo-500"
           title="More Options"
+          aria-label="More options"
         >
           <svg
-            className="w-4 h-4 md:w-5 md:h-5"
+            className="w-5 h-5 lg:w-6 lg:h-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

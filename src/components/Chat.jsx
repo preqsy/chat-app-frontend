@@ -80,7 +80,7 @@ export default function Chat({ sender, receiver }) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-gray-900">
+    <div className="flex flex-col h-full bg-gray-900 lg:bg-white">
       <ChatHeader
         user={{
           name: receiver.username,
@@ -92,16 +92,42 @@ export default function Chat({ sender, receiver }) {
         onMoreOptions={() => console.log("More options")}
       />
 
-      <div className="flex-1 overflow-y-auto p-2 md:p-4 space-y-2 md:space-y-4">
+      {/* Messages Container */}
+      <div className="flex-1 overflow-y-auto p-3 lg:p-6 space-y-3 lg:space-y-4 bg-gray-900 lg:bg-gray-50">
         {useMessagesLoading ? (
           <div className="flex justify-center items-center h-full">
-            <div>Loading messages...</div>
+            <div className="flex flex-col items-center space-y-3">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+              <p className="text-gray-400 text-sm">Loading messages...</p>
+            </div>
           </div>
         ) : (
           <>
             {filteredMessages.length === 0 ? (
-              <div className="flex justify-center items-center h-full text-gray-500">
-                No messages yet. Start the conversation!
+              <div className="flex flex-col justify-center items-center h-full text-center space-y-4">
+                <div className="w-16 h-16 bg-gray-700 lg:bg-gray-300 rounded-full flex items-center justify-center">
+                  <svg
+                    className="w-8 h-8 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-gray-400 lg:text-gray-600 font-medium">
+                    No messages yet
+                  </p>
+                  <p className="text-gray-500 text-sm mt-1">
+                    Start the conversation with {receiver.username}!
+                  </p>
+                </div>
               </div>
             ) : (
               filteredMessages.map((message) => (
@@ -121,7 +147,10 @@ export default function Chat({ sender, receiver }) {
         )}
       </div>
 
-      <ChatInput onSend={handleSendMessage} disabled={loading} />
+      {/* Chat Input */}
+      <div className="bg-gray-900 lg:bg-white border-t border-gray-700 lg:border-gray-200">
+        <ChatInput onSend={handleSendMessage} disabled={loading} />
+      </div>
 
       {notification && (
         <Toast
