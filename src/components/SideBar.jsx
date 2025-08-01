@@ -16,7 +16,7 @@ export default function SideBar() {
       path: "/",
       icon: (
         <svg
-          className="w-6 h-6"
+          className="w-5 h-5 lg:w-6 lg:h-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -31,71 +31,36 @@ export default function SideBar() {
       ),
       label: "Home",
     },
-    // {
-    //   path: "#",
-    //   icon: (
-    //     <svg
-    //       className="w-6 h-6"
-    //       fill="none"
-    //       stroke="currentColor"
-    //       viewBox="0 0 24 24"
-    //     >
-    //       <path
-    //         strokeLinecap="round"
-    //         strokeLinejoin="round"
-    //         strokeWidth="2"
-    //         d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-    //       />
-    //     </svg>
-    //   ),
-    //   label: "Messages",
-    // },
-    // {
-    //   path: "#",
-    //   icon: (
-    //     <svg
-    //       classNamess="w-6 h-6"
-    //       fill="none"
-    //       stroke="currentColor"
-    //       viewBox="0 0 24 24"
-    //     >
-    //       <path
-    //         strokeLinecap="round"
-    //         strokeLinejoin="round"
-    //         strokeWidth="2"
-    //         d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-    //       />
-    //     </svg>
-    //   ),
-    //   label: "Notifications",
-    // },
   ];
 
   return (
-    <div className="h-screen bg-black border-r border-gray-200 flex flex-col items-center py-6">
+    <div className="h-screen w-16 lg:w-20 bg-gray-800 border-r border-gray-700 flex flex-col items-center py-4 lg:py-6 shadow-lg">
       {/* Logo */}
-      <Link to="/" className="mb-8">
-        <div className="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center">
-          <span className="text-white font-bold text-xl">B</span>
+      <Link to="/" className="mb-6 lg:mb-8 group">
+        <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center transition-transform duration-200 group-hover:scale-110 shadow-lg">
+          <span className="text-white font-bold text-lg lg:text-xl">W</span>
         </div>
       </Link>
 
       {/* Navigation */}
-      <nav className="flex-1 space-y-4">
+      <nav className="flex-1 space-y-3 lg:space-y-4">
         {navigationItems.map((item) => (
           <Link
             key={item.path}
             to={item.path}
-            className={`block p-3 rounded-xl transition-colors relative group ${
+            className={`relative block p-3 lg:p-3 rounded-xl transition-all duration-200 group ${
               location.pathname === item.path
-                ? "text-indigo-600 bg-indigo-50"
-                : "text-gray-500 hover:text-indigo-600 hover:bg-indigo-50"
+                ? "text-white bg-indigo-600 shadow-lg"
+                : "text-gray-400 hover:text-white hover:bg-gray-700"
             }`}
           >
             {item.icon}
-            <span className="absolute left-full ml-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+
+            {/* Tooltip - only show on larger screens */}
+            <div className="absolute left-full ml-3 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 hidden lg:block">
               {item.label}
-            </span>
+              <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-2 h-2 bg-gray-900 rotate-45"></div>
+            </div>
           </Link>
         ))}
       </nav>
@@ -104,7 +69,8 @@ export default function SideBar() {
       <div className="relative">
         <button
           onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-          className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 hover:border-indigo-600 transition-colors "
+          className="w-10 h-10 lg:w-12 lg:h-12 rounded-full overflow-hidden border-2 border-gray-600 hover:border-indigo-500 transition-all duration-200 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+          aria-label="User menu"
         >
           <img
             src={Vector}
@@ -113,30 +79,95 @@ export default function SideBar() {
           />
         </button>
 
+        {/* Settings Dropdown - improved mobile positioning */}
         {isSettingsOpen && (
-          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 bg-indigo-600 rounded-lg shadow-lg py-1 border border-gray-200">
-            <Link
-              to="/profile"
-              className="block px-4 py-2 text-sm t hover:bg-gray-100 text-black"
-            >
-              Profile
-            </Link>
-            <Link
-              to="/settings"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            >
-              Settings
-            </Link>
-            <button
-              onClick={() => {
-                localStorage.removeItem("token");
-                window.location.href = "/login";
-              }}
-              className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-            >
-              Sign out
-            </button>
-          </div>
+          <>
+            {/* Mobile backdrop */}
+            <div
+              className="lg:hidden fixed inset-0 z-40"
+              onClick={() => setIsSettingsOpen(false)}
+            />
+
+            <div className="absolute bottom-full left-1/2 lg:left-full lg:bottom-0 transform -translate-x-1/2 lg:translate-x-0 lg:-translate-y-1/2 mb-2 lg:mb-0 lg:ml-3 w-48 bg-gray-800 rounded-xl shadow-xl py-2 border border-gray-700 z-50">
+              <div className="px-4 py-2 border-b border-gray-700">
+                <p className="text-sm font-medium text-white">Account</p>
+              </div>
+
+              <Link
+                to="/profile"
+                className="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                onClick={() => setIsSettingsOpen(false)}
+              >
+                <svg
+                  className="w-4 h-4 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
+                </svg>
+                Profile
+              </Link>
+
+              <Link
+                to="/settings"
+                className="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                onClick={() => setIsSettingsOpen(false)}
+              >
+                <svg
+                  className="w-4 h-4 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+                Settings
+              </Link>
+
+              <div className="border-t border-gray-700 mt-2 pt-2">
+                <button
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("user");
+                    window.location.href = "/login";
+                  }}
+                  className="flex items-center w-full px-4 py-3 text-sm text-red-400 hover:bg-gray-700 hover:text-red-300 transition-colors"
+                >
+                  <svg
+                    className="w-4 h-4 mr-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                    />
+                  </svg>
+                  Sign out
+                </button>
+              </div>
+            </div>
+          </>
         )}
       </div>
     </div>
