@@ -12,13 +12,14 @@ export default function FriendsList() {
     error: friendError,
   } = useListNewFriends();
 
-  const [listNewUser, setListNewUser] = useState([]);
   const [notification, setNotification] = useState(null);
   const [addingFriendId, setAddingFriendId] = useState(null);
+  const [sentRequestIds, setSentRequestIds] = useState(new Set());
 
-  useEffect(() => {
-    setListNewUser(listUsers);
-  }, [listUsers]);
+  // Filter out users who have been sent requests
+  const availableUsers = listUsers?.filter(
+    user => !sentRequestIds.has(user.id)
+  ) || [];
 
   const addFriend = async (e, id) => {
     e.preventDefault();
@@ -31,9 +32,8 @@ export default function FriendsList() {
         },
       });
       
-      setListNewUser((prevFriend) =>
-        prevFriend.filter((request) => request.id !== id)
-      );
+      // Remove user from available list
+      setSentRequestIds(prev => new Set([...prev, id]));
       
       setNotification({
         message: "Friend request sent successfully!",
@@ -57,7 +57,7 @@ export default function FriendsList() {
       </div>
     );
 
-  if (listNewUser.length === 0) {
+  if (availableUsers.length === 0) {
     return (
       <div className="text-center py-8 space-y-3">
         <div className="w-12 h-12 mx-auto bg-gray-700 lg:bg-gray-300 rounded-full flex items-center justify-center">
@@ -75,7 +75,7 @@ export default function FriendsList() {
 
   return (
     <div className="space-y-2">
-      {listNewUser.map((friend) => (
+      {availableUsers.map((friend) => (
         <div key={friend.id} className="relative">
           <PeopleList
             firstName={friend.firstName}

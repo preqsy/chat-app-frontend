@@ -20,14 +20,15 @@ export default function FriendRequest() {
     error: listRequestError,
   } = useListFriendRequests();
 
-  // Sync state with fetched data
-  const [friendRequests, setFriendRequests] = useState([]);
+  // Local state for UI management
   const [notification, setNotification] = useState(null);
   const [acceptingRequestId, setAcceptingRequestId] = useState(null);
+  const [removedRequestIds, setRemovedRequestIds] = useState(new Set());
 
-  useEffect(() => {
-    setFriendRequests(listFriendRequests);
-  }, [listFriendRequests]);
+  // Filter out removed requests
+  const friendRequests = listFriendRequests?.filter(
+    request => !removedRequestIds.has(request.id)
+  ) || [];
 
   const handleAcceptFriendRequest = async (e, id) => {
     if (e) {
@@ -47,10 +48,8 @@ export default function FriendRequest() {
 
       console.log("Accept friend request result:", result);
 
-      // Remove accepted friend request from state
-      setFriendRequests((prevRequests) =>
-        prevRequests.filter((request) => request.id !== id)
-      );
+      // Remove accepted friend request from display
+      setRemovedRequestIds(prev => new Set([...prev, id]));
       
       setNotification({
         message: "Friend request accepted successfully!",
