@@ -19,8 +19,11 @@ export default function RecentChats({
   const [combinedChats, setCombinedChats] = useState([]);
 
   useEffect(() => {
+    // Only update if we actually have data and it's different
+    if (!newMessages && !oldChats) return;
+    
     // Merge all messages
-    const mergedChats = [...newMessages, ...oldChats];
+    const mergedChats = [...(newMessages || []), ...(oldChats || [])];
 
     // Ensure uniqueness based on sender and receiver IDs
     const uniqueChats = Array.from(
@@ -49,7 +52,7 @@ export default function RecentChats({
     uniqueChats.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     setCombinedChats(uniqueChats);
-  }, [newMessages, oldChats]);
+  }, [newMessages?.length, oldChats?.length]); // Only depend on lengths to avoid infinite loops
 
   if (oldChatLoading)
     return (
